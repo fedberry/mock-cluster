@@ -4,7 +4,7 @@
     "info": "Footer copyright",
     "title": "",
     "body": {
-        "value": "<ul>      <li>      </li><li> Raspberry Pi is a trademark of the <a href=\"https://www.raspberrypi.org\">Raspberry Pi Foundation</a></li>          <li> <a href=\"https://start.fedoraproject.org\">Fedora</a> is trademark of <a href=\"https://www.redhat.com\">Red Hat, Inc.</a></li>           <li> FedBerry is released under <a href=\"http://creativecommons.org/licenses/GPL/2.0/\" target=\"_blank\">GNU General Public License, version 2.</a></li>         </ul><br>\n<hr>\n<center class=\"footer\">\n<a class=\"logo\" href=\"/\" title=\"Home\">\n        <img src=\"http://mock.fedberry.org/files/github/logo.png\" alt=\"Home\" width=32>\n      </a>\n</center>",
+        "value": "<hr>\n<ul>      <li>      </li><li> Raspberry Pi is a trademark of the <a href=\"https://www.raspberrypi.org\">Raspberry Pi Foundation</a></li>          <li> <a href=\"https://start.fedoraproject.org\">Fedora</a> is trademark of <a href=\"https://www.redhat.com\">Red Hat, Inc.</a></li>           <li> FedBerry is released under <a href=\"http://creativecommons.org/licenses/GPL/2.0/\" target=\"_blank\">GNU General Public License, version 2.</a></li>         </ul><br>\n<center class=\"footer\">\n<a class=\"logo\" href=\"/\" title=\"Home\">\n        <img src=\"http://mock.fedberry.org/files/github/logo.png\" alt=\"Home\" width=32>\n      </a>\n</center>",
         "format": "full_html"
     },
     "description": "A reusable custom block."
