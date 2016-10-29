@@ -111,7 +111,7 @@ a:hover {
   color: #294172;
 }
 
-.page .footer {
+.page .footer, .page .footer a, .page .footer a:hover {
   color: #333;
   text-align: center;
   padding: 20px;
