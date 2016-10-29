@@ -110,23 +110,25 @@ a:hover {
     color: #294172;
 }
 
-.footer {
+.page .footer {
   background-color: #333;
   color: white;
   text-align: center;
   padding: 20px;
+  margin-left: -15px;
+  margin-right: -15px;
 }
 
-.footer ul {
+.page .footer ul {
   padding-left: 0px;
 }
 
-.footer li {
+.page .footer li {
   list-style: none;
   padding-left: 0px;
 }
 
-.footer a {
+.page .footer a {
   color: white;
   text-decoration: underline;
 }
