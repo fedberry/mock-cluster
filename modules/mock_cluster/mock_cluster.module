@@ -1,0 +1,47 @@
+<?php
+/**
+ * @file
+ * mock_cluster module.
+ */
+
+/**
+ * Implements hook_config_info().
+ */
+function mock_cluster_config_info() {
+  $prefixes['mock_cluster.settings'] = array(
+    'label' => t('Github Node settings'),
+    'group' => t('Configuration'),
+  );
+  return $prefixes;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function mock_cluster_permission() {
+  // Add permission to admin pgapi.
+  return array(
+    'administer mock cluster' => array(
+      'title' => t('Administer mock cluster'),
+      'description' => t('Control directory to sync'),
+      'restrict access' => TRUE,
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function mock_cluster_menu() {
+  $items = array();
+
+  $items['admin/config/mock_cluster'] = array(
+    'title' => 'Mock cluster configuration',
+    'description' => 'Configure mock cluster.',
+    'page callback' => 'backdrop_get_form',
+    'page arguments' => array('mock_cluster_configure'),
+    'access arguments' => array('administer mock cluster'),
+    'file' => 'mock_cluster.admin.inc',
+  );
+  return $items;
+}

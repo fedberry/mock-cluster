@@ -1,0 +1,7 @@
+name = Mock cluster
+description = Control Mock cluster servers.
+package = "Content"
+backdrop = 1.x
+type = module
+
+configure = admin/config/mock

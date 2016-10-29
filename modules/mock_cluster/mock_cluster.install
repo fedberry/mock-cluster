@@ -1,0 +1,62 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the user module.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function mock_cluster_schema() {
+  $schema['mock_agents'] = array(
+    'description' => 'Maps users to roles.',
+    'fields' => array(
+      'aid' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'Primary Key: Unique agent ID.',
+        'default' => 0,
+      ),
+      'MAC' => array(
+        'type' => 'varchar',
+        'length' => 60,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'Unique MAC address.',
+      ),
+      'status' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'size' => 'tiny',
+        'description' => 'Whether the agent is pendint(0), active(1) or blocked(2).',
+      ),
+      'created' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Timestamp for when agent was created.',
+      ),
+      'access' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Timestamp for previous time agent accessed the site.',
+      ),
+      'role' => array(
+        'type' => 'varchar',
+        'length' => 64,
+        'description' => 'Primary Key: The name of the role.',
+        'not null' => TRUE,
+        'default' => '',
+      ),
+    ),
+    'primary key' => array('aid'),
+    'indexes' => array(
+      'MAC' => array('MAC'),
+    ),
+  );
+  return $schema; 
+}
