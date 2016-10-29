@@ -1,0 +1,10 @@
+name = Flame
+description = Based on bootstrap lite theme
+backdrop = 1.x
+type = theme
+base theme = bootstrap_lite
+
+stylesheets[all][] = css/style.css
+
+
+

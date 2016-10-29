@@ -1,0 +1,8 @@
+name = Github Pages
+description = Use github managed repository as source of pages.
+package = "Content"
+backdrop = 1.x
+type = module
+dependencies[] = parsedown_filter
+
+configure = admin/config/github_pages

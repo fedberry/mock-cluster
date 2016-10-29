@@ -1,0 +1,214 @@
+{
+    "_config_name": "layout.layout.default",
+    "path": "",
+    "name": "default",
+    "title": "Default Layout",
+    "description": null,
+    "module": "layout",
+    "weight": 0,
+    "storage": 2,
+    "layout_template": "radix_bryant",
+    "disabled": false,
+    "settings": {
+        "title": "",
+        "title_display": "default",
+        "title_block": null
+    },
+    "positions": {
+        "header": [
+            "67ea4897-5c3c-4f2f-9707-7de2e4e94905",
+            "2e06b612-4576-4330-a400-cfe563f7e45a"
+        ],
+        "sidebar": [
+            "0f3fa23e-38d9-4ae7-8006-6d0fbc6f665b",
+            "482124ac-c1c9-4cb8-8c5d-93a9ca436591"
+        ],
+        "content": [
+            "default"
+        ],
+        "footer": [
+            "4f80d579-40da-490f-9100-f07ff647e268",
+            "cd4d033d-3f67-4191-8655-85ee758877c0"
+        ]
+    },
+    "content": {
+        "67ea4897-5c3c-4f2f-9707-7de2e4e94905": {
+            "plugin": "layout:custom_block",
+            "data": {
+                "module": "layout",
+                "delta": "custom_block",
+                "settings": {
+                    "title_display": "default",
+                    "title": "",
+                    "style": "default",
+                    "block_settings": [],
+                    "contexts": [],
+                    "content": "<div class=\"alert alert-info\" role=\"alert\" style=\"font-size:larger;\">\n<i class=\"fa fa-exclamation-circle\" aria-hidden=\"true\" style=\"color: red;\"></i> &nbsp;&nbsp;\nWe are hardly working to fill up and structure documentation. Feel free to ask any question on <a href=\"http://gitter.im/fedberry/chat\"><i class=\"fa fa-comments-o\" aria-hidden=\"true\"></i> Gitter</a></div>",
+                    "format": "full_html"
+                },
+                "uuid": "67ea4897-5c3c-4f2f-9707-7de2e4e94905",
+                "style": {
+                    "plugin": "default",
+                    "data": {
+                        "settings": {
+                            "classes": ""
+                        }
+                    }
+                }
+            }
+        },
+        "2e06b612-4576-4330-a400-cfe563f7e45a": {
+            "plugin": "system:header",
+            "data": {
+                "module": "system",
+                "delta": "header",
+                "settings": {
+                    "title_display": "default",
+                    "title": "",
+                    "style": "default",
+                    "block_settings": {
+                        "menu": "menu-github-pages",
+                        "logo": 1,
+                        "site_name": 1,
+                        "site_slogan": 1
+                    },
+                    "contexts": []
+                },
+                "uuid": "2e06b612-4576-4330-a400-cfe563f7e45a",
+                "style": {
+                    "plugin": "default",
+                    "data": {
+                        "settings": {
+                            "classes": ""
+                        }
+                    }
+                }
+            }
+        },
+        "0f3fa23e-38d9-4ae7-8006-6d0fbc6f665b": {
+            "plugin": "menu:menu-github-pages",
+            "data": {
+                "module": "menu",
+                "delta": "menu-github-pages",
+                "settings": {
+                    "title_display": "none",
+                    "title": "",
+                    "style": "default",
+                    "block_settings": {
+                        "menu_name": "menu-github-pages",
+                        "level": "1",
+                        "depth": "0"
+                    },
+                    "contexts": []
+                },
+                "uuid": "0f3fa23e-38d9-4ae7-8006-6d0fbc6f665b",
+                "style": {
+                    "plugin": "default",
+                    "data": {
+                        "settings": {
+                            "classes": ""
+                        }
+                    }
+                }
+            }
+        },
+        "482124ac-c1c9-4cb8-8c5d-93a9ca436591": {
+            "plugin": "block:gitter_link",
+            "data": {
+                "module": "block",
+                "delta": "gitter_link",
+                "settings": {
+                    "title_display": "default",
+                    "title": "",
+                    "style": "default",
+                    "block_settings": {
+                        "delta": "gitter_link",
+                        "reusable": true
+                    },
+                    "contexts": []
+                },
+                "uuid": "482124ac-c1c9-4cb8-8c5d-93a9ca436591",
+                "style": {
+                    "plugin": "default",
+                    "data": {
+                        "settings": {
+                            "classes": ""
+                        }
+                    }
+                }
+            }
+        },
+        "default": {
+            "plugin": "system:main",
+            "data": {
+                "module": "system",
+                "delta": "main",
+                "settings": {
+                    "title_display": "default",
+                    "title": "",
+                    "style": "default",
+                    "block_settings": [],
+                    "contexts": []
+                },
+                "uuid": "default",
+                "style": {
+                    "plugin": "default",
+                    "data": {
+                        "settings": {
+                            "classes": ""
+                        }
+                    }
+                }
+            }
+        },
+        "4f80d579-40da-490f-9100-f07ff647e268": {
+            "plugin": "block:footer_copyright",
+            "data": {
+                "module": "block",
+                "delta": "footer_copyright",
+                "settings": {
+                    "title_display": "none",
+                    "title": "",
+                    "style": "default",
+                    "block_settings": {
+                        "delta": "footer_copyright",
+                        "reusable": true
+                    },
+                    "contexts": []
+                },
+                "uuid": "4f80d579-40da-490f-9100-f07ff647e268",
+                "style": {
+                    "plugin": "default",
+                    "data": {
+                        "settings": {
+                            "classes": ""
+                        }
+                    }
+                }
+            }
+        },
+        "cd4d033d-3f67-4191-8655-85ee758877c0": {
+            "plugin": "system:powered-by",
+            "data": {
+                "module": "system",
+                "delta": "powered-by",
+                "settings": {
+                    "title_display": "default",
+                    "title": "",
+                    "style": "default",
+                    "block_settings": [],
+                    "contexts": []
+                },
+                "uuid": "cd4d033d-3f67-4191-8655-85ee758877c0",
+                "style": {
+                    "plugin": "default",
+                    "data": {
+                        "settings": {
+                            "classes": "pull-right"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

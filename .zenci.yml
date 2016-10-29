@@ -1,0 +1,21 @@
+deploy:
+  branch:
+    server: mock.fedberry.org
+    username: fedberry
+    dir: '{home}/github/{repo_owner}/{repo_name}/branch/{branch}'
+    env_vars:
+      docroot: '{home}/domains/mock.fedberry.org'
+      domain: 'mock.fedberry.org'
+      database_name: fedberry_mock
+      database_user: fedberry_mock
+      database_pass_file: '{home}/mock.pass'
+      database_server: localhost
+      account_user: admin
+      account_mail: admin@fedberry.org
+      account_pass: REPLACE
+      b: "php {home}/github/Gormartsen/b/b.php"
+      site_mail: noreply@zen.ci
+      site_name: "Mock control server for fedberry.org"
+    scripts:
+      init: '{deploy_dir}/scripts/deploy_init.sh'
+      after: '{deploy_dir}/scripts/deploy_update.sh'

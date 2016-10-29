@@ -1,0 +1,11 @@
+{
+    "_config_name": "block.custom.gitter_link",
+    "delta": "gitter_link",
+    "info": "Gitter link",
+    "title": "Gitter.im",
+    "body": {
+        "value": " Feel free to join us on <a href=\"http://gitter.im/fedberry/chat\"><i class=\"fa fa-comments-o\" aria-hidden=\"true\"></i> Gitter</a>",
+        "format": "full_html"
+    },
+    "description": "A reusable custom block."
+}

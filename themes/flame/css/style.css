@@ -1,0 +1,146 @@
+/**
+ * This file should get overwritten if Method 1 is used. If Method 2 is chosen,
+ * remove this comment and start adding your styles to this file.
+ */
+
+.logo {
+    padding: 0px 15px;
+}
+
+a.navbar-brand img {
+  padding-bottom: 4px;
+  padding-top: 4px;
+}
+/* Logo */
+a.logo img{
+  width: 32px;
+}
+
+/* Make it spin */
+a.logo img:hover, #block-block-2 img:hover {
+    -webkit-animation:spin 4s linear infinite;
+    -moz-animation:spin 4s linear infinite;
+    animation:spin 4s linear infinite;
+}
+
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+
+.container {
+  max-width: 100%;
+}
+
+.container .container {
+  width: 750px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.container-fluid .container {
+  width: auto;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.container-fluid .container-fluid {
+  padding-left: 0px;
+  padding-right: 0px;  
+}
+
+/* Content related styles fixes*/
+.content h4 {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  padding-left: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.content img.img-responsive.img-thumbnail {
+  margin: 45px 0px;
+}
+
+@media (min-width: 767px) {
+  .content img.img-responsive.img-thumbnail {
+    max-width: 650px;
+  }
+}
+
+
+.field-name-field-taxonomy field-item {
+  display: inline;
+  padding: 0px 5px;
+}
+/* Images interactivity*/
+
+img.img-responsive.img-thumbnail:hover {
+  background-color: #eee;
+}
+/* blockquote */
+
+blockquote {
+  font-size: inherit;
+  border-left: 2px solid orange;
+  margin-left: 15px;
+}
+
+/* Book navigation*/
+
+.block-menu-menu-github-pages {
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 15px;
+}
+
+.block-menu-menu-github-pages ul.menu {
+  -webkit-padding-start: 0px;
+  margin-left: 10px;
+  padding-left: 0px;
+}
+
+.block-menu-menu-github-pages ul.menu li {
+  padding: 10px 5px 0px 0px;
+  margin-left: 5px;
+  padding-left: 0px;
+}
+
+.block-menu-menu-github-pages ul.menu li a {
+  padding-left: 5px;
+}
+
+.block-menu-menu-github-pages ul.menu li a.active::before {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  content: "\f105";
+  padding-right: 8px;
+  color: orange;
+  margin-left: -13px;
+}
+
+@media (max-width: 970px) {
+  .block-block-gitter-link {
+    display: none;
+  }
+}
+
+/* Footer style. */
+
+.footer {
+  color: #777;
+  border: none;
+  margin: 0px;
+  width: 100%;
+  padding: 15px 0px;
+}
+
+.footer a.logo img {
+   filter: grayscale(100%) brightness(80%) contrast(100%);
+   -webkit-filter: grayscale(100%) brightness(80%) contrast(100%);
+   -moz-filter: grayscale(100%) brightness(80%) contrast(100%);
+   -ms-filter: grayscale(100%) brightness(80%) contrast(100%);
+   -o-filter: grayscale(100%) brightness(80%) contrast(100%);
+}

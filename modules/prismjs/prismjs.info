@@ -1,0 +1,5 @@
+name = Prismjs code style
+description = Custom build prismjs imtegration
+package = "Input filters"
+backdrop = 1.x
+type = module

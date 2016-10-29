@@ -1,0 +1,11 @@
+{
+    "_config_name": "block.custom.footer_copyright",
+    "delta": "footer_copyright",
+    "info": "Footer copyright",
+    "title": "",
+    "body": {
+        "value": "<br>\n<hr>\n<center class=\"footer\">\n<p>© Fedberry.org</p>\n<a class=\"logo\" href=\"/\" title=\"Home\">\n        <img src=\"http://docs.zen.ci/files/github/logo.png\" alt=\"Home\" width=32>\n      </a>\n</center>",
+        "format": "full_html"
+    },
+    "description": "A reusable custom block."
+}
