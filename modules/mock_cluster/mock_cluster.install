@@ -26,6 +26,13 @@ function mock_cluster_schema() {
         'default' => '',
         'description' => 'Unique MAC address.',
       ),
+      'arch' => array(
+        'type' => 'varchar',
+        'length' => 10,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'Supported ARCH.',
+      ),
       'status' => array(
         'type' => 'int',
         'not null' => TRUE,
@@ -45,12 +52,19 @@ function mock_cluster_schema() {
         'default' => 0,
         'description' => 'Timestamp for previous time agent accessed the site.',
       ),
-      'role' => array(
+      'uid' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'User uid who approved agent.',
+        'default' => 0,
+      ),
+      'secret' => array(
         'type' => 'varchar',
-        'length' => 64,
-        'description' => 'Primary Key: The name of the role.',
+        'length' => 128,
         'not null' => TRUE,
         'default' => '',
+        'description' => "Hashed key to check access.",
       ),
     ),
     'primary key' => array('aid'),

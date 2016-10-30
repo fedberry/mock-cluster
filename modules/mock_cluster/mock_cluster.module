@@ -35,6 +35,14 @@ function mock_cluster_permission() {
 function mock_cluster_menu() {
   $items = array();
 
+  $items['mock_cluster/register'] = array(
+    'type' => MENU_CALLBACK,
+    'title' => 'Mock Agent register callback',
+    'page callback' => 'mock_cluster_register',
+    'file' => 'mock_cluster.agent.inc',
+    'access callback' => TRUE,
+  );
+
   $items['admin/config/mock_cluster'] = array(
     'title' => 'Mock cluster configuration',
     'description' => 'Configure mock cluster.',
@@ -43,5 +51,15 @@ function mock_cluster_menu() {
     'access arguments' => array('administer mock cluster'),
     'file' => 'mock_cluster.admin.inc',
   );
+  
+  $items['agents'] = array(
+    'title' => 'Agents',
+    'page callback' => 'mock_cluster_agents',
+    'access arguments' => array('access content'),
+    'file' => 'mock_cluster.page.inc',
+    'weight' => -10, 
+    'menu_name' => 'menu-github-pages',
+  );
+
   return $items;
 }
