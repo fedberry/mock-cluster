@@ -29,7 +29,7 @@ function mock_cluster_agents(){
     }
     $row[] = array( 'data' => $agent->MAC );
     $row[] = array( 'data' => $agent->arch );
-    $row[] = array( 'data' => $agent->arch );
+    $row[] = array( 'data' => $status );
     $rows[] = $row;
   }
   $header = array(t('MAC address'), t('ARCH'), t('status'));
