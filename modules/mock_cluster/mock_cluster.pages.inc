@@ -89,6 +89,7 @@ function mock_agent_activate($form, &$form_state, $agent){
   $form['message'] = array(
     '#markup' => t('Are you sure want to activate !MAC agent?', array('!MAC' => $agent->MAC)),
   );
+  $form['actions']['#type'] = 'actions';
   $form['actions']['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Activate'),
@@ -109,6 +110,7 @@ function mock_agent_activate_submit($form, &$form_state) {
     ->execute();
 
   backdrop_set_message(t('Agent !MAC activated!', array('!MAC' => $agent->MAC)));
+  backdrop_goto('agents');
 }
 
 /**
@@ -121,6 +123,7 @@ function mock_agent_block($form, &$form_state, $agent){
   $form['message'] = array(
     '#markup' => t('Are you sure want to block !MAC agent?', array('!MAC' => $agent->MAC)),
   );
+  $form['actions']['#type'] = 'actions';
   $form['actions']['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Block'),
@@ -141,6 +144,7 @@ function mock_agent_block_submit($form, &$form_state) {
     ->execute();
 
   backdrop_set_message(t('Agent !MAC blocked!', array('!MAC' => $agent->MAC)));
+  backdrop_goto('agents');
 }
 
 /**
@@ -153,6 +157,7 @@ function mock_agent_delete($form, &$form_state, $agent){
   $form['message'] = array(
     '#markup' => t('Are you sure want to delete !MAC agent?', array('!MAC' => $agent->MAC)),
   );
+  $form['actions']['#type'] = 'actions';
   $form['actions']['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Delete'),
@@ -172,4 +177,5 @@ function mock_agent_delete_submit($form, &$form_state) {
     ->execute();
 
   backdrop_set_message(t('Agent !MAC blocked!', array('!MAC' => $agent->MAC)));
+  backdrop_goto('agents');
 }
