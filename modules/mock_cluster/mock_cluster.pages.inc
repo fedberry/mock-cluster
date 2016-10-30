@@ -33,6 +33,7 @@ function mock_cluster_agents(){
     $row[] = array( 'data' => l($agent->MAC, 'agents/' . $agent->MAC ) );
     $row[] = array( 'data' => $agent->arch );
     $row[] = array( 'data' => $status );
+    $row[] = array( 'data' => theme('username', array('account' => user_load($agent->uid))));
     
     if($is_admin) {
       $links['delete'] = array(
@@ -61,9 +62,9 @@ function mock_cluster_agents(){
     $rows[] = $row;
   }
   if($is_admin) {
-    $header = array(t('MAC address'), t('ARCH'), t('Status'), t('Operations'));
+    $header = array(t('MAC address'), t('ARCH'), t('Status'), t('Owner'), t('Operations'));
   } else {
-    $header = array(t('MAC address'), t('ARCH'), t('Status'));
+    $header = array(t('MAC address'), t('ARCH'), t('Status'), t('Owner'));
   }
 
   $output['table'] = array(
@@ -96,6 +97,11 @@ function mock_cluster_agent($agent) {
 
   $output .= '<dt>' . t('Status'). '</dt>';
   $output .= '<dd>' . $status . '</dd>';
+
+  $output .= '<dt>' . t('Owner'). '</dt>';
+  $output .= '<dd>' . theme('username', array('account' => user_load($agent->uid))) . '</dd>';
+  
+  
 
   $output .= '<dt>' . t('Created'). '</dt>';
   $output .= '<dd>' . format_date($agent->created) . '</dd>';
