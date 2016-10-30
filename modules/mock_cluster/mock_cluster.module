@@ -115,6 +115,15 @@ function mock_cluster_menu() {
     'access callback' => TRUE,
   );
 
+  $items['mock_cluster/task'] = array(
+    'type' => MENU_CALLBACK,
+    'title' => 'Mock task retrive callback',
+    'page callback' => 'mock_cluster_task',
+    'file' => 'mock_cluster.agent.inc',
+    'access callback' => TRUE,
+  );  
+  
+
   $items['admin/config/mock_cluster'] = array(
     'title' => 'Mock cluster configuration',
     'description' => 'Configure mock cluster.',

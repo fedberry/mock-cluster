@@ -5,6 +5,24 @@
  */
 
 /**
+ * Get task.
+ */
+
+function mock_cluster_task() {
+  $mac = $_SERVER['HTTP_MAC'];
+  $agent = mock_agent_load($mac);
+  print_r($task);
+  $tasks = db_select('mock_tasks', 'mt')
+    ->fields('mt')
+    ->condition('arch', $agent->arch)
+    ->condition('status', MOCK_TASK_PENDING)
+    ->execute()
+    ->fetchObject();
+  print_r($task);
+
+}
+
+/**
  * Implements register.
  */
 function mock_cluster_register() {
