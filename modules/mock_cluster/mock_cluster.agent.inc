@@ -17,8 +17,8 @@ function mock_cluster_task() {
     ->condition('status', MOCK_TASK_PENDING)
     ->execute()
     ->fetchObject();
-  echo "URL:" . $task->url;
-  echo "TASKID:" . $task->tid;
+  echo "URL:" . $task->url . "\n";
+  echo "TASKID:" . $task->tid . "\n";
   exit();
 }
 
