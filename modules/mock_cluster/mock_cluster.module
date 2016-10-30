@@ -34,6 +34,31 @@ function mock_cluster_permission() {
 }
 
 /**
+ * Implements menu access function().
+ */
+function mock_agent_access($agent, $type) {
+  global $user;
+  if(user_access('administer mock agents')) {
+    switch($type) {
+      case 'delete':
+          return TRUE;
+        break;
+      case 'activate':
+          if($agent->access == 0 ){
+            return TRUE;
+          }
+        break;        
+      case 'block':
+          if($agent->access != 0 ){
+            return TRUE;
+          }
+        break;        
+    }
+  }
+  return FALSE;
+}
+
+/**
  * Implements hook_load().
  */
 function mock_agent_load($MAC){
@@ -84,7 +109,7 @@ function mock_cluster_menu() {
   );
 
   $items['agents/%mock_agent'] = array(
-    'type' => MENU_CALLBACK,    
+    'type' => MENU_DEFAULT_LOCAL_TASK,    
     'title callback' => 'mock_agent_title',
     'title arguments' => array(1),
     'page callback' => 'mock_cluster_agent',
@@ -98,10 +123,10 @@ function mock_cluster_menu() {
     'title arguments' => array(1),
     'page callback' => 'backdrop_get_form',
     'page arguments' => array('mock_agent_delete', 1),
-    'access callback' => 'user_access',
-    'access arguments' => array('administer mock agents'),
+    'access callback' => 'mock_agent_access',
+    'access arguments' => array(1, 'delete'),
     'file' => 'mock_cluster.pages.inc',
-    'type' => MENU_CALLBACK,
+    'type' => MENU_LOCAL_TASK,
   );
 
   $items['agents/%mock_agent/activate'] = array(
@@ -109,10 +134,10 @@ function mock_cluster_menu() {
     'title arguments' => array(1),
     'page callback' => 'backdrop_get_form',
     'page arguments' => array('mock_agent_activate', 1),
-    'access callback' => 'user_access',
-    'access arguments' => array('administer mock agents'),
+    'access callback' => 'mock_agent_access',
+    'access arguments' => array(1, 'activate'),
     'file' => 'mock_cluster.pages.inc',
-    'type' => MENU_CALLBACK,
+    'type' => MENU_LOCAL_TASK,
   );
 
   $items['agents/%mock_agent/block'] = array(
@@ -120,10 +145,10 @@ function mock_cluster_menu() {
     'title arguments' => array(1),
     'page callback' => 'backdrop_get_form',
     'page arguments' => array('mock_agent_block', 1),
-    'access callback' => 'user_access',
-    'access arguments' => array('administer mock agents'),
+    'access callback' => 'mock_agent_access',
+    'access arguments' => array(1, 'block'),
     'file' => 'mock_cluster.pages.inc',
-    'type' => MENU_CALLBACK,
+    'type' => MENU_LOCAL_TASK,
   );
   return $items;
 }
