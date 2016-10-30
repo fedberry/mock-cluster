@@ -37,7 +37,7 @@ function mock_cluster_schema() {
         'not null' => TRUE,
         'default' => 0,
         'size' => 'tiny',
-        'description' => 'Whether the agent is pendint(0), active(1) or blocked(2).',
+        'description' => 'Whether the agent is pending(0), active(1) or blocked(2).',
       ),
       'created' => array(
         'type' => 'int',
@@ -71,5 +71,69 @@ function mock_cluster_schema() {
       'MAC' => array('MAC'),
     ),
   );
+
+  $schema['mock_tasks'] = array(
+    'description' => 'Maps users to roles.',
+    'fields' => array(
+      'tid' => array(
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'Primary Key: Unique task ID.',
+      ),
+      'arch' => array(
+        'type' => 'varchar',
+        'length' => 10,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'Supported ARCH.',
+      ),
+      'aid' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Agent ID who took a task.',
+      ),
+      'status' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'size' => 'tiny',
+        'description' => 'Whether the agent is pending(0), processing(1), failed(2) or success(3).',
+      ),
+      'created' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Timestamp fwhen task was created.',
+      ),
+      'changed' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Timestamp when task has been changed.',
+      ),
+      'uid' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'User uid who created task.',
+        'default' => 0,
+      ),
+    ),
+    'primary key' => array('tid'),
+    'indexes' => array(
+      'status' => array('status'),
+      'arch' => array('arch'),
+    ),
+  );
   return $schema; 
+}
+
+/**
+ * Create table mock_tasks."
+ */
+function mock_cluster_update_1001() {
+  $schema = backdrop_get_schema_unprocessed('mock_cluster');
+  db_create_table('mock_tasks', $schema['mock_tasks']);
 }

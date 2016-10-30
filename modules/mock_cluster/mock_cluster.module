@@ -72,6 +72,16 @@ function mock_agent_load($MAC){
     ->execute()
     ->fetchObject();
 }
+/**
+ * Implements hook_load_by_id().
+ */
+function mock_agent_load_by_id($aid){
+  return db_select('mock_agents', 'ma')
+    ->fields('ma')
+    ->condition('aid', $aid)
+    ->execute()
+    ->fetchObject();
+}
 
 /**
  * Menu item title callback - use the user name.
@@ -102,7 +112,16 @@ function mock_cluster_menu() {
     'access arguments' => array('administer mock cluster'),
     'file' => 'mock_cluster.admin.inc',
   );
-  
+
+  $items['tasks'] = array(
+    'title' => 'Tasks',
+    'page callback' => 'mock_cluster_tasks',
+    'access arguments' => array('access content'),
+    'file' => 'mock_cluster.task.pages.inc',
+    'weight' => -10, 
+    'menu_name' => 'menu-github-pages',
+  );
+    
   $items['agents'] = array(
     'title' => 'Agents',
     'page callback' => 'mock_cluster_agents',
