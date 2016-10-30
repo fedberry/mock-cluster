@@ -19,7 +19,7 @@ function mock_cluster_task() {
     ->execute()
     ->fetchObject();
   print_r($task);
-
+  exit();
 }
 
 /**
