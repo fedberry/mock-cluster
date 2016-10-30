@@ -76,7 +76,35 @@ function mock_cluster_agents(){
 }
 
 function mock_cluster_agent($agent) {
-  return print_r($agent, true);
+  
+  $status = t('Pending');
+  switch($agent->status) {
+    case 1: 
+      $status = t('Active');
+      break;
+    case 2: 
+      $status = t('Disabled');
+      break;
+  }
+    
+  $output = '<dl>';
+  $output .= '<dt>' . t('MAC address'). '</dt>';
+  $output .= '<dd>' . $agent->MAC . '</dd>';
+
+  $output .= '<dt>' . t('ARCH'). '</dt>';
+  $output .= '<dd>' . $agent->arch . '</dd>';
+
+  $output .= '<dt>' . t('Status'). '</dt>';
+  $output .= '<dd>' . $status . '</dd>';
+
+  $output .= '<dt>' . t('Created'). '</dt>';
+  $output .= '<dd>' . format_date($agent->created) . '</dd>';
+
+  $output .= '<dt>' . t('Last activity'). '</dt>';
+  $output .= '<dd>' . format_date($agent->access) . '</dd>';
+
+  $output .= '</dl>';
+  return $output;
 }
 
 /**
