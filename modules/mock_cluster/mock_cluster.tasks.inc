@@ -20,7 +20,7 @@ function mock_cluster_tasks(){
   foreach ($tasks as $task) {
     $row = array();
     $status = t('Pending');
-    switch($agent->status) {
+    switch($task->status) {
       case 1: 
         $status = t('Active');
         break;
@@ -37,7 +37,11 @@ function mock_cluster_tasks(){
       $agent = mock_agent_load_by_id($task->aid);
       $agent_display = l($agent->MAC, 'agents/' . $agent->MAC);
     }
-    $row[] = array( 'data' => l($task->id, 'tasks/' . $agent->id ) );
+    
+    $package = pathinfo($task->url);
+    
+    $row[] = array( 'data' => l($task->tid, 'tasks/' . $task->tid ) );
+    $row[] = array( 'data' => l($package['basename'], $task->url, array('attributes' => array('absolute' => TRUE)) ) );
     $row[] = array( 'data' => $task->arch );
     $row[] = array( 'data' => $status );
     $row[] = array( 'data' => $agent_display );
@@ -46,7 +50,7 @@ function mock_cluster_tasks(){
 
     $rows[] = $row;
   }
-  $header = array(t('MAC address'), t('ARCH'), t('Status'), t('Agent MAC'), t('Owner'));
+  $header = array(t('Task ID'), t('Package'), t('ARCH'), t('Status'), t('Agent MAC'), t('Owner'));
 
   $output['table'] = array(
     '#theme' => 'table__mock_cluster__tasks',
@@ -89,7 +93,6 @@ function mock_task_add($form, &$form_state) {
  */
 function mock_task_add_submit($form, &$form_state) {
   global $user;
-  $agent =  $form_state['values']['client_secret'];
   $record = array(
     'arch' => $form_state['values']['arch'],
     'url' => $form_state['values']['url'],
@@ -100,6 +103,6 @@ function mock_task_add_submit($form, &$form_state) {
   );
   backdrop_write_record('mock_tasks', $record);
 
-  backdrop_set_message(t('Task !id activated!', array('!id' => $record->tid)));
-  backdrop_goto('tasks/' . $record->tid);
+  backdrop_set_message(t('Task !id activated!', array('!id' => $record['tid'])));
+  backdrop_goto('tasks/' . $record['tid']);
 }
