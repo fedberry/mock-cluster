@@ -56,7 +56,7 @@ function mock_cluster_menu() {
     'title' => 'Agents',
     'page callback' => 'mock_cluster_agents',
     'access arguments' => array('access content'),
-    'file' => 'mock_cluster.page.inc',
+    'file' => 'mock_cluster.pages.inc',
     'weight' => -10, 
     'menu_name' => 'menu-github-pages',
   );
