@@ -109,7 +109,7 @@ function mock_cluster_menu() {
   );
 
   $items['agents/%mock_agent'] = array(
-    'type' => MENU_DEFAULT_LOCAL_TASK,    
+    'type' => MENU_CALLBACK,    
     'title callback' => 'mock_agent_title',
     'title arguments' => array(1),
     'page callback' => 'mock_cluster_agent',
@@ -117,10 +117,15 @@ function mock_cluster_menu() {
     'access arguments' => array('access content'),
     'file' => 'mock_cluster.pages.inc',
   );
-  
-  $items['agents/%mock_agent/delete'] = array(
+
+  $items['agents/%mock_agent/view'] = array(
     'title callback' => 'mock_agent_title',
     'title arguments' => array(1),
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+  );
+  
+  $items['agents/%mock_agent/delete'] = array(
+    'title' => 'Delete',
     'page callback' => 'backdrop_get_form',
     'page arguments' => array('mock_agent_delete', 1),
     'access callback' => 'mock_agent_access',
@@ -130,8 +135,7 @@ function mock_cluster_menu() {
   );
 
   $items['agents/%mock_agent/activate'] = array(
-    'title callback' => 'mock_agent_title',
-    'title arguments' => array(1),
+    'title' => 'Activate',
     'page callback' => 'backdrop_get_form',
     'page arguments' => array('mock_agent_activate', 1),
     'access callback' => 'mock_agent_access',
@@ -141,8 +145,7 @@ function mock_cluster_menu() {
   );
 
   $items['agents/%mock_agent/block'] = array(
-    'title callback' => 'mock_agent_title',
-    'title arguments' => array(1),
+    'title' => 'Block',
     'page callback' => 'backdrop_get_form',
     'page arguments' => array('mock_agent_block', 1),
     'access callback' => 'mock_agent_access',
