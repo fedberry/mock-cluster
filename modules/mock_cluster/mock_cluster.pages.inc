@@ -16,6 +16,9 @@ function mock_cluster_agents(){
     ->fetchAll();
 
   $rows = array();
+  
+  $is_admin = user_access('administer mock agents');
+  
   foreach ($agents as $agent) {
     $row = array();
     $status = t('Pending');
@@ -27,12 +30,41 @@ function mock_cluster_agents(){
         $status = t('Disabled');
         break;
     }
-    $row[] = array( 'data' => $agent->MAC );
+    $row[] = array( 'data' => l($agent->MAC, 'agents/' . $agent->MAC ) );
     $row[] = array( 'data' => $agent->arch );
     $row[] = array( 'data' => $status );
+    
+    if($is_admin) {
+      $links['delete'] = array(
+        'title' => t('Delete'),
+        'href' => "agents/" . $agent->MAC . "/delete",
+      );
+      if($agent->status == 0) {
+        $links['status'] = array(
+          'title' => t('Activate'),
+          'href' => "agents/" . $agent->MAC . "/activate",
+        );
+      } else {
+        $links['status'] = array(
+          'title' => t('Block'),
+          'href' => "agents/" . $agent->MAC . "/block",
+        );
+      }
+      $row[] = array(
+        'data' => array(
+          '#type' => 'operations',
+          '#links' => $links,
+        ),
+      );
+
+    }
     $rows[] = $row;
   }
-  $header = array(t('MAC address'), t('ARCH'), t('status'));
+  if($is_admin) {
+    $header = array(t('MAC address'), t('ARCH'), t('Status'), t('Operations'));
+  } else {
+    $header = array(t('MAC address'), t('ARCH'), t('Status'));
+  }
 
   $output['table'] = array(
     '#theme' => 'table__mock_cluster__agents',
@@ -41,4 +73,103 @@ function mock_cluster_agents(){
     '#empty' => t('No agents available yet.'),
   );
   return $output;
+}
+
+function mock_cluster_agent($agent) {
+  return print_r($agent, true);
+}
+
+/**
+ * Activate agent handler.
+ */
+function mock_agent_activate($form, &$form_state, $agent){
+
+  $form_state['agent'] = $agent;
+
+  $form['message'] = array(
+    '#markup' => t('Are you sure want to activate !MAC agent?', array('!MAC' => $agent->MAC)),
+  );
+  $form['actions']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Activate'),
+  );
+
+  return $form;
+}
+
+/**
+ * Submit handler for the mock_agent_activate() form.
+ */
+function mock_agent_activate_submit($form, &$form_state) {
+  global $user;
+  $agent =  $form_state['agent'];
+  db_update('mock_agents')
+    ->fields(array('status' => 1, 'uid' => $user->uid))
+    ->condition('aid', $agent->aid)
+    ->execute();
+
+  backdrop_set_message(t('Agent !MAC activated!', array('!MAC' => $agent->MAC)));
+}
+
+/**
+ * Activate agent handler.
+ */
+function mock_agent_block($form, &$form_state, $agent){
+
+  $form_state['agent'] = $agent;
+
+  $form['message'] = array(
+    '#markup' => t('Are you sure want to block !MAC agent?', array('!MAC' => $agent->MAC)),
+  );
+  $form['actions']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Block'),
+  );
+
+  return $form;
+}
+
+/**
+ * Submit handler for the mock_agent_block() form.
+ */
+function mock_agent_block_submit($form, &$form_state) {
+  global $user;
+  $agent =  $form_state['agent'];
+  db_update('mock_agents')
+    ->fields(array('status' => 2, 'uid' => $user->uid))
+    ->condition('aid', $agent->aid)
+    ->execute();
+
+  backdrop_set_message(t('Agent !MAC blocked!', array('!MAC' => $agent->MAC)));
+}
+
+/**
+ * Activate agent handler.
+ */
+function mock_agent_delete($form, &$form_state, $agent){
+
+  $form_state['agent'] = $agent;
+
+  $form['message'] = array(
+    '#markup' => t('Are you sure want to delete !MAC agent?', array('!MAC' => $agent->MAC)),
+  );
+  $form['actions']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Delete'),
+  );
+
+  return $form;
+}
+
+/**
+ * Submit handler for the mock_agent_delete() form.
+ */
+function mock_agent_delete_submit($form, &$form_state) {
+  global $user;
+  $agent =  $form_state['agent'];
+  db_delete('mock_agents')
+    ->condition('aid', $agent->aid)
+    ->execute();
+
+  backdrop_set_message(t('Agent !MAC blocked!', array('!MAC' => $agent->MAC)));
 }

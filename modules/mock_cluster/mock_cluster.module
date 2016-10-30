@@ -19,14 +19,36 @@ function mock_cluster_config_info() {
  * Implements hook_permission().
  */
 function mock_cluster_permission() {
-  // Add permission to admin pgapi.
   return array(
     'administer mock cluster' => array(
       'title' => t('Administer mock cluster'),
-      'description' => t('Control directory to sync'),
+      'description' => t('Control mock_cluster settings'),
+      'restrict access' => TRUE,
+    ),
+    'administer mock agents' => array(
+      'title' => t('Administer mock agents'),
+      'description' => t('Control agents'),
       'restrict access' => TRUE,
     ),
   );
+}
+
+/**
+ * Implements hook_load().
+ */
+function mock_agent_load($MAC){
+  return db_select('mock_agents', 'ma')
+    ->fields('ma')
+    ->condition('MAC', $MAC)
+    ->execute()
+    ->fetchAssoc();
+}
+
+/**
+ * Menu item title callback - use the user name.
+ */
+function mock_agent_title($agent) {
+  return is_object($agent) ? $agent->MAC : '';
 }
 
 /**
@@ -61,5 +83,47 @@ function mock_cluster_menu() {
     'menu_name' => 'menu-github-pages',
   );
 
+  $items['agents/%mock_cluster'] = array(
+    'type' => MENU_CALLBACK,    
+    'title callback' => 'mock_agent_title',
+    'title arguments' => array(1),
+    'page callback' => 'mock_cluster_agent',
+    'page arguments' => array(1),
+    'access arguments' => array('access content'),
+    'file' => 'mock_cluster.pages.inc',
+  );
+  
+  $items['agents/%mock_cluster/delete'] = array(
+    'title callback' => 'mock_agent_title',
+    'title arguments' => array(1),
+    'page callback' => 'backdrop_get_form',
+    'page arguments' => array('mock_agent_delete', 1),
+    'access callback' => 'user_access',
+    'access arguments' => array('administer mock agents'),
+    'file' => 'mock_cluster.pages.inc',
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['agents/%mock_cluster/activate'] = array(
+    'title callback' => 'mock_agent_title',
+    'title arguments' => array(1),
+    'page callback' => 'backdrop_get_form',
+    'page arguments' => array('mock_agent_activate', 1),
+    'access callback' => 'user_access',
+    'access arguments' => array('administer mock agents'),
+    'file' => 'mock_cluster.pages.inc',
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['agents/%mock_cluster/block'] = array(
+    'title callback' => 'mock_agent_title',
+    'title arguments' => array(1),
+    'page callback' => 'backdrop_get_form',
+    'page arguments' => array('mock_agent_block', 1),
+    'access callback' => 'user_access',
+    'access arguments' => array('administer mock agents'),
+    'file' => 'mock_cluster.pages.inc',
+    'type' => MENU_CALLBACK,
+  );
   return $items;
 }
