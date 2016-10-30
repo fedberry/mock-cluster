@@ -39,7 +39,7 @@ function mock_cluster_agents(){
         'title' => t('Delete'),
         'href' => "agents/" . $agent->MAC . "/delete",
       );
-      if($agent->status == 0) {
+      if($agent->status == 0 or $agent->status == 2) {
         $links['status'] = array(
           'title' => t('Activate'),
           'href' => "agents/" . $agent->MAC . "/activate",
@@ -110,7 +110,7 @@ function mock_agent_activate_submit($form, &$form_state) {
     ->execute();
 
   backdrop_set_message(t('Agent !MAC activated!', array('!MAC' => $agent->MAC)));
-  backdrop_goto('agents');
+  backdrop_goto('agents/' . $agent->MAC);
 }
 
 /**
@@ -144,7 +144,8 @@ function mock_agent_block_submit($form, &$form_state) {
     ->execute();
 
   backdrop_set_message(t('Agent !MAC blocked!', array('!MAC' => $agent->MAC)));
-  backdrop_goto('agents');
+  backdrop_goto('agents/' . $agent->MAC);
+
 }
 
 /**

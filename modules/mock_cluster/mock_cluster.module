@@ -44,7 +44,7 @@ function mock_agent_access($agent, $type) {
           return TRUE;
         break;
       case 'activate':
-          if($agent->access == 0 ){
+          if($agent->access == 0 or $agent->status == 2 ){
             return TRUE;
           }
         break;        
