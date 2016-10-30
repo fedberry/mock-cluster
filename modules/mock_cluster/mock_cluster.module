@@ -41,7 +41,7 @@ function mock_agent_load($MAC){
     ->fields('ma')
     ->condition('MAC', $MAC)
     ->execute()
-    ->fetchAssoc();
+    ->fetchObject();
 }
 
 /**
