@@ -10,16 +10,15 @@
 
 function mock_cluster_task() {
   $mac = $_SERVER['HTTP_MAC'];
-  print_r($_SERVER);
   $agent = mock_agent_load($mac);
-  print_r($agent);
   $task = db_select('mock_tasks', 'mt')
     ->fields('mt')
     ->condition('arch', $agent->arch)
     ->condition('status', MOCK_TASK_PENDING)
     ->execute()
     ->fetchObject();
-  print_r($task);
+  echo "URL:" . $task->url;
+  echo "TASKID:" . $task->tid;
   exit();
 }
 
