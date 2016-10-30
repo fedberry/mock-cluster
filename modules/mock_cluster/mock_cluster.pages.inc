@@ -133,7 +133,7 @@ function mock_agent_activate_submit($form, &$form_state) {
   global $user;
   $agent =  $form_state['agent'];
   db_update('mock_agents')
-    ->fields(array('status' => 1, 'uid' => $user->uid))
+    ->fields(array('status' => 1, 'uid' => $user->uid, 'access' => REQUEST_TIME))
     ->condition('aid', $agent->aid)
     ->execute();
 
@@ -167,7 +167,7 @@ function mock_agent_block_submit($form, &$form_state) {
   global $user;
   $agent =  $form_state['agent'];
   db_update('mock_agents')
-    ->fields(array('status' => 2, 'uid' => $user->uid))
+    ->fields(array('status' => 2, 'uid' => $user->uid, 'access' => REQUEST_TIME))
     ->condition('aid', $agent->aid)
     ->execute();
 
