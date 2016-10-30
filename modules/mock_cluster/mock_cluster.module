@@ -48,12 +48,12 @@ function mock_agent_access($agent, $type) {
           return TRUE;
         break;
       case 'activate':
-          if($agent->access == MOCK_AGENT_PENDING or $agent->status == MOCK_AGENT_BLOCKED ){
+          if($agent->status == MOCK_AGENT_PENDING or $agent->status == MOCK_AGENT_BLOCKED ){
             return TRUE;
           }
         break;        
       case 'block':
-          if($agent->access != MOCK_AGENT_BLOCKED ){
+          if($agent->status != MOCK_AGENT_BLOCKED ){
             return TRUE;
           }
         break;        
