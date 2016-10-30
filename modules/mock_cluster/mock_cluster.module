@@ -8,6 +8,12 @@ define('MOCK_AGENT_PENDING', 0);
 define('MOCK_AGENT_ACTIVE', 1);
 define('MOCK_AGENT_BLOCKED', 2);
 
+
+define('MOCK_TASK_PENDING', 0);
+define('MOCK_TASK_PROCESSING', 1);
+define('MOCK_TASK_FAILED', 2);
+define('MOCK_TASK_SUCCESS', 3);
+
 /**
  * Implements hook_config_info().
  */
@@ -32,6 +38,11 @@ function mock_cluster_permission() {
     'administer mock agents' => array(
       'title' => t('Administer mock agents'),
       'description' => t('Control agents'),
+      'restrict access' => TRUE,
+    ),
+    'administer mock tasks' => array(
+      'title' => t('Administer mock tasks'),
+      'description' => t('Control tasks'),
       'restrict access' => TRUE,
     ),
   );
@@ -117,10 +128,25 @@ function mock_cluster_menu() {
     'title' => 'Tasks',
     'page callback' => 'mock_cluster_tasks',
     'access arguments' => array('access content'),
-    'file' => 'mock_cluster.task.pages.inc',
+    'file' => 'mock_cluster.tasks.inc',
     'weight' => -10, 
     'menu_name' => 'menu-github-pages',
   );
+
+  $items['tasks/list'] = array(
+    'title' => 'Tasks',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+  );
+  
+  $items['tasks/add'] = array(
+    'title' => 'Add task',
+    'page callback' => 'backdrop_get_form',
+    'page arguments' => array('mock_task_add'),
+    'access arguments' => array('administer mock tasks'),
+    'file' => 'mock_cluster.tasks.inc',
+    'type' => MENU_LOCAL_TASK,
+  );
+  
     
   $items['agents'] = array(
     'title' => 'Agents',

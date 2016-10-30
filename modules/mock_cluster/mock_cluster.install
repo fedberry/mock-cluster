@@ -94,6 +94,13 @@ function mock_cluster_schema() {
         'default' => 0,
         'description' => 'Agent ID who took a task.',
       ),
+      'url' => array(
+        'type' => 'varchar',
+        'length' => 254,
+        'not null' => FALSE,
+        'default' => '',
+        'description' => "SRPM url.",
+      ),
       'status' => array(
         'type' => 'int',
         'not null' => TRUE,
@@ -136,4 +143,12 @@ function mock_cluster_schema() {
 function mock_cluster_update_1001() {
   $schema = backdrop_get_schema_unprocessed('mock_cluster');
   db_create_table('mock_tasks', $schema['mock_tasks']);
+}
+
+/**
+ * Add field url to table mock_tasks."
+ */
+function mock_cluster_update_1002() {
+  $schema = backdrop_get_schema_unprocessed('mock_cluster');
+  db_add_field('mock_tasks', 'url', $schema['mock_tasks']['fields']['url']);
 }
