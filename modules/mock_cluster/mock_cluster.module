@@ -3,6 +3,10 @@
  * @file
  * mock_cluster module.
  */
+ 
+define('MOCK_AGENT_PENDING', 0);
+define('MOCK_AGENT_ACTIVE', 1);
+define('MOCK_AGENT_BLOCKED', 2);
 
 /**
  * Implements hook_config_info().
@@ -44,12 +48,12 @@ function mock_agent_access($agent, $type) {
           return TRUE;
         break;
       case 'activate':
-          if($agent->access == 0 or $agent->status == 2 ){
+          if($agent->access == MOCK_AGENT_PENDING or $agent->status == MOCK_AGENT_BLOCKED ){
             return TRUE;
           }
         break;        
       case 'block':
-          if($agent->access != 0 ){
+          if($agent->access != MOCK_AGENT_BLOCKED ){
             return TRUE;
           }
         break;        

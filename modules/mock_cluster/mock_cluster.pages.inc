@@ -39,7 +39,7 @@ function mock_cluster_agents(){
         'title' => t('Delete'),
         'href' => "agents/" . $agent->MAC . "/delete",
       );
-      if($agent->status == 0 or $agent->status == 2) {
+      if($agent->status == MOCK_AGENT_PENDING or $agent->status == MOCK_AGENT_BLOCKED) {
         $links['status'] = array(
           'title' => t('Activate'),
           'href' => "agents/" . $agent->MAC . "/activate",
