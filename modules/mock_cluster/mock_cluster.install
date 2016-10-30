@@ -17,7 +17,6 @@ function mock_cluster_schema() {
         'unsigned' => TRUE,
         'not null' => TRUE,
         'description' => 'Primary Key: Unique agent ID.',
-        'default' => 0,
       ),
       'MAC' => array(
         'type' => 'varchar',
