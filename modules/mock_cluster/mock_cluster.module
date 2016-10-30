@@ -83,7 +83,7 @@ function mock_cluster_menu() {
     'menu_name' => 'menu-github-pages',
   );
 
-  $items['agents/%mock_cluster'] = array(
+  $items['agents/%mock_agent'] = array(
     'type' => MENU_CALLBACK,    
     'title callback' => 'mock_agent_title',
     'title arguments' => array(1),
@@ -93,7 +93,7 @@ function mock_cluster_menu() {
     'file' => 'mock_cluster.pages.inc',
   );
   
-  $items['agents/%mock_cluster/delete'] = array(
+  $items['agents/%mock_agent/delete'] = array(
     'title callback' => 'mock_agent_title',
     'title arguments' => array(1),
     'page callback' => 'backdrop_get_form',
@@ -104,7 +104,7 @@ function mock_cluster_menu() {
     'type' => MENU_CALLBACK,
   );
 
-  $items['agents/%mock_cluster/activate'] = array(
+  $items['agents/%mock_agent/activate'] = array(
     'title callback' => 'mock_agent_title',
     'title arguments' => array(1),
     'page callback' => 'backdrop_get_form',
@@ -115,7 +115,7 @@ function mock_cluster_menu() {
     'type' => MENU_CALLBACK,
   );
 
-  $items['agents/%mock_cluster/block'] = array(
+  $items['agents/%mock_agent/block'] = array(
     'title callback' => 'mock_agent_title',
     'title arguments' => array(1),
     'page callback' => 'backdrop_get_form',
