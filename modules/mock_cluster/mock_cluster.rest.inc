@@ -46,6 +46,7 @@ function mock_cluster_rest_auth() {
               ->condition('MAC', $data['MAC'])
               ->execute()
               ->fetchAssoc();
+
             if(empty($agent)){
               $secret = backdrop_random_key();
               $token = backdrop_random_key();
@@ -70,6 +71,25 @@ function mock_cluster_rest_auth() {
             }
           break;
         case 'token':
+            if(!isset($data['MAC'])){
+              return array('error' => true, 'message' => 'MAC value is required.');
+            }
+            if(!isset($data['arch'])){
+              return array('error' => true, 'message' => 'arch value is required.');
+            }
+            $agent = db_select('mock_agents', 'ma')
+              ->fields('ma')
+              ->condition('MAC', $data['MAC'])
+              ->execute()
+              ->fetchAssoc();
+            if(empty($agent)){
+              return array('error' => true, 'message' => 'Agent with this MAC is not registered.');
+            }else {
+              return array(
+                'token' => $agent->token,
+                'expire' => $agent->token_expire
+              );
+            }
           break;
         default: 
           return array('error' => true, 'message' => 'method should be register or token only.');
