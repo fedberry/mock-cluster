@@ -106,6 +106,16 @@ function mock_agent_title($agent) {
  */
 function mock_cluster_menu() {
   $items = array();
+  
+  $items['api/auth'] = array(
+    'title' => 'API',
+    'load arguments' => array(3),    
+    'page callback' => 'mock_cluster_rest_auth',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+    'file' => 'mock_cluster.rest.inc',   
+    'delivery callback' => 'mock_cluster_ajax_deliver',     
+  );
 
   $items['mock_cluster/register'] = array(
     'type' => MENU_CALLBACK,
@@ -212,4 +222,41 @@ function mock_cluster_menu() {
     'type' => MENU_LOCAL_TASK,
   );
   return $items;
+}
+
+function mock_cluster_ajax_deliver($page_callback_result) {
+  backdrop_add_http_header('Content-Type', 'application/json; charset=utf-8');
+
+  if (is_int($page_callback_result)) {
+    $json = array('error' => TRUE);
+    switch ($page_callback_result) {
+      case MENU_NOT_FOUND:
+        $json['message'] = t('The requested page could not be found.');
+        backdrop_add_http_header('Status', '404 Not Found');
+        break;
+
+      case MENU_ACCESS_DENIED:
+        $json['message'] = t('You are not authorized to access this page.');
+        backdrop_add_http_header('Status', '403 Forbidden');
+        break;
+
+      case MENU_SITE_OFFLINE:
+        $json['message'] = t('@site is currently under maintenance. We should be back shortly. Thank you for your patience.', array('@site' => config_get('system.core', 'site_name')));
+        backdrop_add_http_header('Status', '503 Service unavailable');
+        break;
+    }
+  }
+  elseif (is_array($page_callback_result)) {
+    $json = $page_callback_result;
+  }
+  else {
+    $json = array(
+      'error' => TRUE,
+      'message' => t('An unknown error has occurred.'),
+    );
+  }
+  print backdrop_json_encode($json);
+  if (backdrop_get_bootstrap_phase() == BACKDROP_BOOTSTRAP_FULL && (!defined('MAINTENANCE_MODE') || MAINTENANCE_MODE != 'update')) {
+    module_invoke_all('exit');
+  }
 }
