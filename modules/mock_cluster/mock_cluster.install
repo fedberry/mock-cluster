@@ -63,7 +63,20 @@ function mock_cluster_schema() {
         'length' => 128,
         'not null' => TRUE,
         'default' => '',
-        'description' => "Hashed key to check access.",
+        'description' => "Secret value to sign in requests.",
+      ),
+      'token' => array(
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => "Temporary provided token.",
+      ),
+      'token_expire' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Timestamp for when token expire.',
       ),
     ),
     'primary key' => array('aid'),
@@ -151,4 +164,13 @@ function mock_cluster_update_1001() {
 function mock_cluster_update_1002() {
   $schema = backdrop_get_schema_unprocessed('mock_cluster');
   db_add_field('mock_tasks', 'url', $schema['mock_tasks']['fields']['url']);
+}
+
+/**
+ * Add fields token, token_expire to table mock_agents."
+ */
+function mock_cluster_update_1003() {
+  $schema = backdrop_get_schema_unprocessed('mock_cluster');
+  db_add_field('mock_agents', 'token', $schema['mock_agents']['fields']['token']);
+  db_add_field('mock_agents', 'token_expire', $schema['mock_agents']['fields']['token_expire']);
 }
