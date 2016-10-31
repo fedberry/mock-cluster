@@ -135,5 +135,44 @@ function _is_rest_authorised($agent, $received_json){
  * Task handler.
  */
 function mock_cluster_rest_task(){
-  
+  $method = $_SERVER['REQUEST_METHOD'];
+  $message = '';
+  $received_json = '';
+  switch($method){
+    case 'SEARCH':
+      if(!$data = mock_cluster_rest_request_content($received_json)){
+        return array('error' => true, 'message' => 'Bad request. No data provided.');
+      }
+      if(!isset($data['MAC'])){
+        return array('error' => true, 'message' => 'MAC value is required.');
+      }
+      if(!isset($data['arch'])){
+        return array('error' => true, 'message' => 'arch value is required.');
+      }
+
+      $agent = db_select('mock_agents', 'ma')
+        ->fields('ma')
+        ->condition('MAC', $data['MAC'])
+        ->condition('arch', $data['arch'])
+        ->execute()
+        ->fetchObject();
+
+      if(empty($agent)){
+        return array('error' => true, 'message' => 'Agent with this MAC is not registered.');
+      }else {
+        if(!_is_rest_authorised($agent, $received_json)) {
+          return array('error' => true, 'message' => 'Authorization failed.');
+        }
+        
+        $task = db_select('mock_tasks', 'mt')
+          ->fields('mt')
+          ->condition('arch', $agent->arch)
+          ->condition('status', MOCK_TASK_PENDING)
+          ->execute()
+          ->fetchObject();
+
+        return $task;
+      }
+    break;
+  }
 }
