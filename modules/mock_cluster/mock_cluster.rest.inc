@@ -171,7 +171,7 @@ function mock_cluster_rest_task(){
           ->execute()
           ->fetchObject();
 
-        return $task;
+        return array( 'task' => $task);
       }
     break;
   }
