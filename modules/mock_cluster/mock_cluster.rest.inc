@@ -80,8 +80,10 @@ function mock_cluster_rest_auth() {
             $agent = db_select('mock_agents', 'ma')
               ->fields('ma')
               ->condition('MAC', $data['MAC'])
+              ->condition('arch', $data['arch'])
               ->execute()
               ->fetchAssoc();
+
             if(empty($agent)){
               return array('error' => true, 'message' => 'Agent with this MAC is not registered.');
             }else {
