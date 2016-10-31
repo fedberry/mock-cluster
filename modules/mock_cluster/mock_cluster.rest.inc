@@ -7,7 +7,7 @@
 /**
  * Return POST or PUT JSON descoded content.
  */
-function mock_cluster_rest_request_content($received_json) {
+function mock_cluster_rest_request_content(&$received_json) {
 
   $received_json = file_get_contents('php://input', TRUE);
 
