@@ -7,7 +7,7 @@
 /**
  * Return POST or PUT JSON descoded content.
  */
-function mock_cluster_rest_request_content() {
+function mock_cluster_rest_request_content($received_json) {
 
   $received_json = file_get_contents('php://input', TRUE);
 
@@ -23,9 +23,10 @@ function mock_cluster_rest_request_content() {
 function mock_cluster_rest_auth() {
   $method = $_SERVER['REQUEST_METHOD'];
   $message = '';
+  $received_json = '';
   switch($method){
     case 'POST':
-      if(!$data = mock_cluster_rest_request_content()){
+      if(!$data = mock_cluster_rest_request_content($received_json)){
         return array('error' => true, 'message' => 'Bad request. No data provided.');
       }
       
@@ -77,6 +78,7 @@ function mock_cluster_rest_auth() {
             if(!isset($data['arch'])){
               return array('error' => true, 'message' => 'arch value is required.');
             }
+
             $agent = db_select('mock_agents', 'ma')
               ->fields('ma')
               ->condition('MAC', $data['MAC'])
@@ -87,6 +89,10 @@ function mock_cluster_rest_auth() {
             if(empty($agent)){
               return array('error' => true, 'message' => 'Agent with this MAC is not registered.');
             }else {
+              if(!_is_rest_authorised($agent, $received_json)) {
+                return array('error' => true, 'message' => 'Authorization failed.');
+              }
+
               return array(
                 'token' => $agent->token,
                 'expire' => $agent->token_expire
@@ -97,4 +103,37 @@ function mock_cluster_rest_auth() {
           return array('error' => true, 'message' => 'method should be register or token only.');
       }
   }
+}
+
+/**
+ * Check authorisation.
+ */
+function _is_rest_authorised($agent, $received_json){
+
+  $method = $_SERVER['REQUEST_METHOD'];
+  //'PUT', 'SEARCH', 'PATCH', 'POST'
+  switch($method){
+    case 'PUT':
+    case 'SEARCH':
+    case 'PATCH':
+    case 'POST':
+        if (isset($_SERVER['HTTP_SIGNATURE'])) {
+          list($algorithm, $expected_hash) = explode('=', $_SERVER['HTTP_SIGNATURE'], 2);
+          $actual_hash = hash_hmac($algorithm, $received_json, $agent->secret);
+          if ($expected_hash === $actual_hash) {
+            return TRUE;
+          }
+        }
+      break;
+    default:
+      break;
+  }
+  return FALSE;
+}
+
+/**
+ * Task handler.
+ */
+function mock_cluster_rest_task(){
+  
 }

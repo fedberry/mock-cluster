@@ -108,8 +108,7 @@ function mock_cluster_menu() {
   $items = array();
   
   $items['api/auth'] = array(
-    'title' => 'API',
-    'load arguments' => array(3),    
+    'title' => 'API/auth', 
     'page callback' => 'mock_cluster_rest_auth',
     'access callback' => TRUE,
     'type' => MENU_CALLBACK,
@@ -117,12 +116,13 @@ function mock_cluster_menu() {
     'delivery callback' => 'mock_cluster_ajax_deliver',     
   );
 
-  $items['mock_cluster/register'] = array(
-    'type' => MENU_CALLBACK,
-    'title' => 'Mock Agent register callback',
-    'page callback' => 'mock_cluster_register',
-    'file' => 'mock_cluster.agent.inc',
+  $items['api/task'] = array(
+    'title' => 'API/task',   
+    'page callback' => 'mock_cluster_rest_task',
     'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+    'file' => 'mock_cluster.rest.inc',   
+    'delivery callback' => 'mock_cluster_ajax_deliver',     
   );
 
   $items['mock_cluster/task'] = array(
