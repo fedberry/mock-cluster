@@ -82,7 +82,7 @@ function mock_cluster_rest_auth() {
               ->condition('MAC', $data['MAC'])
               ->condition('arch', $data['arch'])
               ->execute()
-              ->fetchAssoc();
+              ->fetchObject();
 
             if(empty($agent)){
               return array('error' => true, 'message' => 'Agent with this MAC is not registered.');
