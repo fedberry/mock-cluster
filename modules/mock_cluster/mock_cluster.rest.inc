@@ -117,6 +117,8 @@ function _is_rest_authorised($agent, $received_json){
     case 'SEARCH':
     case 'PATCH':
     case 'POST':
+        echo $_SERVER['HTTP_SIGNATURE'];
+        echo $received_json;
         if (isset($_SERVER['HTTP_SIGNATURE'])) {
           list($algorithm, $expected_hash) = explode('=', $_SERVER['HTTP_SIGNATURE'], 2);
           $actual_hash = hash_hmac($algorithm, $received_json, $agent->secret);
