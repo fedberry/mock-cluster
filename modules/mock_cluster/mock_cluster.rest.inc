@@ -170,9 +170,59 @@ function mock_cluster_rest_task(){
           ->condition('status', MOCK_TASK_PENDING)
           ->execute()
           ->fetchObject();
-
+          
         return array( 'task' => $task);
       }
+    break;
+    case 'PUT':
+      if(!$data = mock_cluster_rest_request_content($received_json)){
+        return array('error' => true, 'message' => 'Bad request. No data provided.');
+      }
+      if(!isset($data['tid'])){
+        return array('error' => true, 'message' => 'tid value is required.');
+      }
+      
+      if(!isset($data['method'])){
+        return array('error' => true, 'message' => 'method value is required.');
+      }
+      
+      $token = $_SERVER['HTTP_TOKEN'];
+      $agent = db_select('mock_agents', 'ma')
+        ->fields('ma')
+        ->condition('token', $token)
+        ->execute()
+        ->fetchObject();
+        
+      if(!$agent) {
+        return array('error' => true, 'message' => 'Authorization failed.');
+      }
+      
+      switch($data['method']){
+        case 'delegate':
+            $task = db_select('mock_tasks', 'mt')
+              ->fields('mt')
+              ->condition('tid', $data['tid'])
+              ->condition('status', MOCK_TASK_PENDING)
+              ->execute()
+              ->fetchObject();
+            if(!$task) {
+              return array('error' => true, 'message' => 'Task is not available.');
+            }
+            
+            $updated = db_update('mock_tasks')
+              ->fields(array('status' => MOCK_TASK_PROCESSING, 'aid' => $agent->aid))
+              ->condition('tid', $data['tid'])
+              ->condition('status', MOCK_TASK_PENDING)
+              ->execute();
+            
+            if($updated) {
+              return array('status' => 'pending');
+            }
+            return array('error' => true, 'message' => 'Task is not available.');
+
+          break;
+      }
+      
     break;
   }
 }
