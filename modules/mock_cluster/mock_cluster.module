@@ -83,6 +83,18 @@ function mock_agent_load($MAC){
     ->execute()
     ->fetchObject();
 }
+
+/**
+ * Implements hook_load().
+ */
+function mock_task_load($tid){
+  return db_select('mock_tasks', 'mt')
+    ->fields('mt')
+    ->condition('tid', $tid)
+    ->execute()
+    ->fetchObject();
+}
+
 /**
  * Implements hook_load_by_id().
  */
@@ -124,6 +136,17 @@ function mock_cluster_menu() {
     'file' => 'mock_cluster.rest.inc',   
     'delivery callback' => 'mock_cluster_ajax_deliver',     
   );
+
+  $items['api/task/%mock_task'] = array(
+    'title' => 'API/task',   
+    'page callback' => 'mock_cluster_rest_task_by_id',
+    'page arguments' => array(2),
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+    'file' => 'mock_cluster.rest.inc',   
+    'delivery callback' => 'mock_cluster_ajax_deliver',     
+  );
+
 
   $items['mock_cluster/task'] = array(
     'type' => MENU_CALLBACK,
