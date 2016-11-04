@@ -211,6 +211,6 @@ function mock_agent_delete_submit($form, &$form_state) {
     ->condition('aid', $agent->aid)
     ->execute();
 
-  backdrop_set_message(t('Agent !MAC blocked!', array('!MAC' => $agent->MAC)));
+  backdrop_set_message(t('Agent !MAC deleted!', array('!MAC' => $agent->MAC)));
   backdrop_goto('agents');
 }
