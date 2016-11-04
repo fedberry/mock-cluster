@@ -143,10 +143,7 @@ function mock_cluster_rest_task_by_id($task){
       if(!$data = mock_cluster_rest_request_content($received_json)){
         return array('error' => true, 'message' => 'Bad request. No data provided.');
       }
-      if(!isset($data['tid'])){
-        return array('error' => true, 'message' => 'tid value is required.');
-      }
-      
+
       if(!isset($data['method'])){
         return array('error' => true, 'message' => 'method value is required.');
       }
