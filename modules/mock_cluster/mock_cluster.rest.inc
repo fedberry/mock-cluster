@@ -122,7 +122,11 @@ function _is_rest_authorised($agent, $received_json){
           $actual_hash = hash_hmac($algorithm, $received_json, $agent->secret);
           if ($expected_hash === $actual_hash) {
             return TRUE;
+          } else {
+            echo "expect:" . $expected_hash . " get" . $actual_hash . " data:" . $received_json ."\n";
           }
+        }else {
+          echo "No signature!!!!";
         }
       break;
     default:
@@ -156,10 +160,10 @@ function mock_cluster_rest_task_by_id($task){
         ->fetchObject();
         
       if(!$agent) {
-        return array('error' => true, 'message' => 'Authorization failed.' . print_r($_SERVER, true) . print_r($agent,true) . print_r($task,true));
+        return array('error' => true, 'message' => 'Authorization failed. Token is not valid.');
       }else {
         if(!_is_rest_authorised($agent, $received_json)) {
-          return array('error' => true, 'message' => 'Authorization failed.'. print_r($_SERVER, true) . print_r($agent,true) . print_r($task,true));
+          return array('error' => true, 'message' => 'Authorization failed. Signature is not valid'. $received_json);
         }
       }
 
@@ -196,7 +200,7 @@ function mock_cluster_rest_task_by_id($task){
               file_prepare_directory($log_folder, FILE_CREATE_DIRECTORY);
               file_unmanaged_save_data($data['log'], $log_folder . '/' . $task->tid . '.log', FILE_EXISTS_REPLACE);
             }
-            array('message' => 'Task updated.');
+            return array('message' => 'Task updated.');
           break;
       }
       
