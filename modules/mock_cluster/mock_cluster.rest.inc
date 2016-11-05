@@ -183,14 +183,15 @@ function mock_cluster_rest_task_by_id($task){
 
           break;
         case 'update':
-          if($task->status != MOCK_TASK_PROCESSING && $task->aid != $agent->aid) {
-            return array('error' => true, 'message' => 'Task is not available.');
-          }
-          if(isset($data['log'])) {
-            $log_folder = 'private://mock_logs/';
-            file_prepare_directory($log_folder, FILE_CREATE_DIRECTORY);
-            file_unmanaged_save_data($data['log'], $log_folder . '/' . $task->tid . '.log', FILE_EXISTS_REPLACE);
-          }
+            if($task->status != MOCK_TASK_PROCESSING && $task->aid != $agent->aid) {
+              return array('error' => true, 'message' => 'Task is not available.');
+            }
+            if(isset($data['log'])) {
+              $log_folder = 'private://mock_logs/';
+              file_prepare_directory($log_folder, FILE_CREATE_DIRECTORY);
+              file_unmanaged_save_data($data['log'], $log_folder . '/' . $task->tid . '.log', FILE_EXISTS_REPLACE);
+            }
+          break;
       }
       
     break;
