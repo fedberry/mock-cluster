@@ -156,17 +156,17 @@ function mock_cluster_rest_task_by_id($task){
         ->fetchObject();
         
       if(!$agent) {
-        return array('error' => true, 'message' => 'Authorization failed.');
+        return array('error' => true, 'message' => 'Authorization failed.' . print_r($_SERVER, true) . print_r($agent,true) . print_r($task,true));
       }else {
         if(!_is_rest_authorised($agent, $received_json)) {
-          return array('error' => true, 'message' => 'Authorization failed.');
+          return array('error' => true, 'message' => 'Authorization failed.'. print_r($_SERVER, true) . print_r($agent,true) . print_r($task,true));
         }
       }
 
       switch($data['method']){
         case 'delegate':
             if($task->status != MOCK_TASK_PENDING) {
-              return array('error' => true, 'message' => 'Task is not available.');
+              return array('error' => true, 'message' => 'Task is not available.'. print_r($_SERVER, true) . print_r($agent,true) . print_r($task,true));
             }
             
             $updated = db_update('mock_tasks')
@@ -179,12 +179,12 @@ function mock_cluster_rest_task_by_id($task){
             if($updated) {
               return array('status' => 'pending');
             }
-            return array('error' => true, 'message' => 'Task is not available.');
+            return array('error' => true, 'message' => 'Task is not available.'. print_r($_SERVER, true) . print_r($agent,true) . print_r($task,true));
 
           break;
         case 'update':
             if($task->status != MOCK_TASK_PROCESSING && $task->aid != $agent->aid) {
-              return array('error' => true, 'message' => 'Task is not available.');
+              return array('error' => true, 'message' => 'Task is not available.'. print_r($_SERVER, true) . print_r($agent,true) . print_r($task,true));
             }
             if(isset($data['log'])) {
               $log_folder = 'private://mock_logs/';
