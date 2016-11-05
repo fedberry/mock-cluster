@@ -178,6 +178,8 @@ function mock_cluster_rest_task_by_id($task){
             
             if($updated) {
               return array('status' => 'pending');
+            } else {
+              array('error' => true, 'message' => 'Task is not available.'. print_r($_SERVER, true) . print_r($agent,true) . print_r($task,true));
             }
             return array('error' => true, 'message' => 'Task is not available.'. print_r($_SERVER, true) . print_r($agent,true) . print_r($task,true));
 
@@ -191,6 +193,7 @@ function mock_cluster_rest_task_by_id($task){
               file_prepare_directory($log_folder, FILE_CREATE_DIRECTORY);
               file_unmanaged_save_data($data['log'], $log_folder . '/' . $task->tid . '.log', FILE_EXISTS_REPLACE);
             }
+            array('message' => 'Task updated.');
           break;
       }
       
