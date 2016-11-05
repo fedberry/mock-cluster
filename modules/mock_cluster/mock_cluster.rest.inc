@@ -170,10 +170,13 @@ function mock_cluster_rest_task_by_id($task){
             }
             
             $updated = db_update('mock_tasks')
-              ->fields(array('status' => MOCK_TASK_PROCESSING, 'aid' => $agent->aid))
+              ->fields(array(
+                'status' => MOCK_TASK_PROCESSING,
+                'aid' => $agent->aid,
+                'changed' => REQUEST_TIME)
+              )
               ->condition('tid', $task->tid)
               ->condition('status', MOCK_TASK_PENDING)
-              ->condition('changed', REQUEST_TIME)
               ->execute();
             
             if($updated) {
