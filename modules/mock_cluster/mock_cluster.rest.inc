@@ -152,7 +152,8 @@ function mock_cluster_rest_task_by_id($task){
       echo "DIR" . $log_folder ."\n";
       file_prepare_directory($log_folder, FILE_CREATE_DIRECTORY);
       
-            echo "DIR" . $log_folder . '/' + $filename ."\n";
+      echo "FILE" . $log_folder . '/' + $filename ."\n";
+      echo $input;
       file_unmanaged_save_data($input, $log_folder . '/' + $filename, FILE_EXISTS_REPLACE);
 
       return(array('message' => $filename . ' uploaded'));      
