@@ -144,8 +144,10 @@ function mock_cluster_rest_task_by_id($task){
   $received_json = '';
   switch($method){
     case 'POST':
+      $received_json = file_get_contents('php://input', TRUE);
       print_r($_SERVER);
       print_r($_FILES);
+      echo $received_json;
       return(array('message' => 'uploaded'));      
     case 'PUT':
       if(!$data = mock_cluster_rest_request_content($received_json)){
