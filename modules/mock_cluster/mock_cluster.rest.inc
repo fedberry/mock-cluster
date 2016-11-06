@@ -135,51 +135,6 @@ function _is_rest_authorised($agent, $received_json){
   return FALSE;
 }
 
-
-function parse_raw_http_request(array &$a_data) {
-  // read incoming data
-  $input = file_get_contents('php://input');
-  print_r($_SERVER);
-  
-  echo $input;
-
-  // grab multipart boundary from content type header
-  preg_match('/boundary=(.*)$/', $_SERVER['CONTENT_TYPE'], $matches);
-  echo "matches 1";
-  print_r($matches);
-  $boundary = $matches[1];
-
-  // split content by boundary and get rid of last -- element
-  $a_blocks = preg_split("/-+$boundary/", $input);
-  array_pop($a_blocks);
-
-  // loop data blocks
-  foreach ($a_blocks as $id => $block)
-  {
-    if (empty($block))
-      continue;
-
-    // you'll have to var_dump $block to understand this and maybe replace \n or \r with a visibile char
-
-    // parse uploaded files
-    if (strpos($block, 'application/octet-stream') !== FALSE)
-    {
-      // match "name", then everything after "stream" (optional) except for prepending newlines 
-      preg_match("/name=\"([^\"]*)\".*stream[\n|\r]+([^\n\r].*)?$/s", $block, $matches);
-    }
-    // parse all other fields
-    else
-    {
-      // match "name" and optional value in between newline sequences
-      preg_match('/name=\"([^\"]*)\"[\n|\r]+([^\n\r].*)?\r$/s', $block, $matches);
-    }
-
-  echo "matches 2";
-  print_r($matches);
-    
-    $a_data[$matches[1]] = $matches[2];
-  }        
-}
 /**
  * Task handler.
  */
@@ -188,10 +143,14 @@ function mock_cluster_rest_task_by_id($task){
   $received_json = '';
   switch($method){
     case 'POST':
-      $files = array();
-      parse_raw_http_request($files);
-      print_r($files);
-      return(array('message' => 'uploaded'));      
+      $input = file_get_contents('php://input');
+      $filename = $_SERVER['HTTP_FILENAME'];
+      $log_folder = 'private://mock_logs/' . $task->tid;
+      file_prepare_directory($log_folder, FILE_CREATE_DIRECTORY);
+      
+      file_unmanaged_save_data($input, $log_folder . '/' + $filename, FILE_EXISTS_REPLACE);
+
+      return(array('message' => $filename . ' uploaded'));      
     case 'PUT':
       if(!$data = mock_cluster_rest_request_content($received_json)){
         return array('error' => true, 'message' => 'Bad request. No data provided.');
