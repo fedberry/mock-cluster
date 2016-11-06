@@ -179,7 +179,7 @@ function mock_cluster_rest_task_by_id($task){
   $received_json = '';
   switch($method){
     case 'POST':
-    
+      $files = array();
       parse_raw_http_request($files);
       print_r($files);
       return(array('message' => 'uploaded'));      
