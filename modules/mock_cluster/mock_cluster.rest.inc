@@ -139,9 +139,14 @@ function _is_rest_authorised($agent, $received_json){
 function parse_raw_http_request(array &$a_data) {
   // read incoming data
   $input = file_get_contents('php://input');
+  print_r($_SERVER);
+  
+  echo $input;
 
   // grab multipart boundary from content type header
   preg_match('/boundary=(.*)$/', $_SERVER['CONTENT_TYPE'], $matches);
+  echo "matches 1";
+  print_r($matches);
   $boundary = $matches[1];
 
   // split content by boundary and get rid of last -- element
@@ -168,6 +173,10 @@ function parse_raw_http_request(array &$a_data) {
       // match "name" and optional value in between newline sequences
       preg_match('/name=\"([^\"]*)\"[\n|\r]+([^\n\r].*)?\r$/s', $block, $matches);
     }
+
+  echo "matches 2";
+  print_r($matches);
+    
     $a_data[$matches[1]] = $matches[2];
   }        
 }
