@@ -121,7 +121,7 @@ function mock_agent_activate($form, &$form_state, $agent){
   $form_state['agent'] = $agent;
 
   $form['message'] = array(
-    '#markup' => t('Are you sure want to activate !MAC agent?', array('!MAC' => $agent->identificationID)),
+    '#markup' => t('Are you sure want to activate !identificationID agent?', array('!identificationID' => $agent->identificationID)),
   );
   $form['actions']['#type'] = 'actions';
   $form['actions']['submit'] = array(
@@ -143,7 +143,7 @@ function mock_agent_activate_submit($form, &$form_state) {
     ->condition('aid', $agent->aid)
     ->execute();
 
-  backdrop_set_message(t('Agent !MAC activated!', array('!MAC' => $agent->identificationID)));
+  backdrop_set_message(t('Agent !identificationID activated!', array('!identificationID' => $agent->identificationID)));
   backdrop_goto('agents/' . $agent->identificationID);
 }
 
@@ -155,7 +155,7 @@ function mock_agent_block($form, &$form_state, $agent){
   $form_state['agent'] = $agent;
 
   $form['message'] = array(
-    '#markup' => t('Are you sure want to block !MAC agent?', array('!MAC' => $agent->identificationID)),
+    '#markup' => t('Are you sure want to block !identificationID agent?', array('!identificationID' => $agent->identificationID)),
   );
   $form['actions']['#type'] = 'actions';
   $form['actions']['submit'] = array(
@@ -177,7 +177,7 @@ function mock_agent_block_submit($form, &$form_state) {
     ->condition('aid', $agent->aid)
     ->execute();
 
-  backdrop_set_message(t('Agent !MAC blocked!', array('!MAC' => $agent->identificationID)));
+  backdrop_set_message(t('Agent !identificationID blocked!', array('!identificationID' => $agent->identificationID)));
   backdrop_goto('agents/' . $agent->identificationID);
 
 }
@@ -190,7 +190,7 @@ function mock_agent_delete($form, &$form_state, $agent){
   $form_state['agent'] = $agent;
 
   $form['message'] = array(
-    '#markup' => t('Are you sure want to delete !MAC agent?', array('!MAC' => $agent->identificationID)),
+    '#markup' => t('Are you sure want to delete !identificationID agent?', array('!identificationID' => $agent->identificationID)),
   );
   $form['actions']['#type'] = 'actions';
   $form['actions']['submit'] = array(
@@ -211,6 +211,6 @@ function mock_agent_delete_submit($form, &$form_state) {
     ->condition('aid', $agent->aid)
     ->execute();
 
-  backdrop_set_message(t('Agent !MAC deleted!', array('!MAC' => $agent->identificationID)));
+  backdrop_set_message(t('Agent !identificationID deleted!', array('!identificationID' => $agent->identificationID)));
   backdrop_goto('agents');
 }
