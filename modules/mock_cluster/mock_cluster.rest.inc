@@ -35,8 +35,8 @@ function mock_cluster_rest_auth() {
       }
       switch($data['method']) {
         case 'register':
-            if(!isset($data['MAC'])){
-              return array('error' => true, 'message' => 'MAC value is required.');
+            if(!isset($data['identificationID'])){
+              return array('error' => true, 'message' => 'identificationID value is required.');
             }
             if(!isset($data['arch'])){
               return array('error' => true, 'message' => 'arch value is required.');
@@ -44,7 +44,7 @@ function mock_cluster_rest_auth() {
             
             $agent = db_select('mock_agents', 'ma')
               ->fields('ma')
-              ->condition('MAC', $data['MAC'])
+              ->condition('identificationID', $data['identificationID'])
               ->execute()
               ->fetchAssoc();
 
@@ -52,7 +52,7 @@ function mock_cluster_rest_auth() {
               $secret = backdrop_random_key();
               $token = backdrop_random_key();
               $record = array(
-                'MAC' => $data['MAC'],
+                'identificationID' => $data['identificationID'],
                 'arch' => $data['arch'],
                 'secret' => $secret,
                 'token' => $token,
@@ -68,11 +68,11 @@ function mock_cluster_rest_auth() {
                 'secret' => $secret
               );
             } else {
-              return array('error' => true, 'message' => 'Agent with this MAC is already registered.');
+              return array('error' => true, 'message' => 'Agent with this identificationID is already registered.');
             }
           break;
         case 'token':
-            if(!isset($data['MAC'])){
+            if(!isset($data['identificationID'])){
               return array('error' => true, 'message' => 'MAC value is required.');
             }
             if(!isset($data['arch'])){
@@ -81,7 +81,7 @@ function mock_cluster_rest_auth() {
 
             $agent = db_select('mock_agents', 'ma')
               ->fields('ma')
-              ->condition('MAC', $data['MAC'])
+              ->condition('identificationID', $data['identificationID'])
               ->condition('arch', $data['arch'])
               ->execute()
               ->fetchObject();
