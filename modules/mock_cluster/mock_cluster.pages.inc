@@ -30,7 +30,7 @@ function mock_cluster_agents(){
         $status = t('Disabled');
         break;
     }
-    $row[] = array( 'data' => l($agent->MAC, 'agents/' . $agent->MAC ) );
+    $row[] = array( 'data' => l($agent->identificationID, 'agents/' . $agent->identificationID ) );
     $row[] = array( 'data' => $agent->arch );
     $row[] = array( 'data' => $status );
     $row[] = array( 'data' => theme('username', array('account' => user_load($agent->uid))));
@@ -38,17 +38,17 @@ function mock_cluster_agents(){
     if($is_admin) {
       $links['delete'] = array(
         'title' => t('Delete'),
-        'href' => "agents/" . $agent->MAC . "/delete",
+        'href' => "agents/" . $agent->identificationID . "/delete",
       );
       if($agent->status == MOCK_AGENT_PENDING or $agent->status == MOCK_AGENT_BLOCKED) {
         $links['status'] = array(
           'title' => t('Activate'),
-          'href' => "agents/" . $agent->MAC . "/activate",
+          'href' => "agents/" . $agent->identificationID . "/activate",
         );
       } else {
         $links['status'] = array(
           'title' => t('Block'),
-          'href' => "agents/" . $agent->MAC . "/block",
+          'href' => "agents/" . $agent->identificationID . "/block",
         );
       }
       $row[] = array(
@@ -62,9 +62,9 @@ function mock_cluster_agents(){
     $rows[] = $row;
   }
   if($is_admin) {
-    $header = array(t('MAC address'), t('ARCH'), t('Status'), t('Owner'), t('Operations'));
+    $header = array(t('Identification ID'), t('ARCH'), t('Status'), t('Owner'), t('Operations'));
   } else {
-    $header = array(t('MAC address'), t('ARCH'), t('Status'), t('Owner'));
+    $header = array(t('Identification ID'), t('ARCH'), t('Status'), t('Owner'));
   }
 
   $output['table'] = array(
@@ -89,8 +89,8 @@ function mock_cluster_agent($agent) {
   }
     
   $output = '<dl>';
-  $output .= '<dt>' . t('MAC address'). '</dt>';
-  $output .= '<dd>' . $agent->MAC . '</dd>';
+  $output .= '<dt>' . t('Identification ID'). '</dt>';
+  $output .= '<dd>' . $agent->identificationID . '</dd>';
 
   $output .= '<dt>' . t('ARCH'). '</dt>';
   $output .= '<dd>' . $agent->arch . '</dd>';
@@ -121,7 +121,7 @@ function mock_agent_activate($form, &$form_state, $agent){
   $form_state['agent'] = $agent;
 
   $form['message'] = array(
-    '#markup' => t('Are you sure want to activate !MAC agent?', array('!MAC' => $agent->MAC)),
+    '#markup' => t('Are you sure want to activate !MAC agent?', array('!MAC' => $agent->identificationID)),
   );
   $form['actions']['#type'] = 'actions';
   $form['actions']['submit'] = array(
@@ -143,8 +143,8 @@ function mock_agent_activate_submit($form, &$form_state) {
     ->condition('aid', $agent->aid)
     ->execute();
 
-  backdrop_set_message(t('Agent !MAC activated!', array('!MAC' => $agent->MAC)));
-  backdrop_goto('agents/' . $agent->MAC);
+  backdrop_set_message(t('Agent !MAC activated!', array('!MAC' => $agent->identificationID)));
+  backdrop_goto('agents/' . $agent->identificationID);
 }
 
 /**
@@ -155,7 +155,7 @@ function mock_agent_block($form, &$form_state, $agent){
   $form_state['agent'] = $agent;
 
   $form['message'] = array(
-    '#markup' => t('Are you sure want to block !MAC agent?', array('!MAC' => $agent->MAC)),
+    '#markup' => t('Are you sure want to block !MAC agent?', array('!MAC' => $agent->identificationID)),
   );
   $form['actions']['#type'] = 'actions';
   $form['actions']['submit'] = array(
@@ -177,8 +177,8 @@ function mock_agent_block_submit($form, &$form_state) {
     ->condition('aid', $agent->aid)
     ->execute();
 
-  backdrop_set_message(t('Agent !MAC blocked!', array('!MAC' => $agent->MAC)));
-  backdrop_goto('agents/' . $agent->MAC);
+  backdrop_set_message(t('Agent !MAC blocked!', array('!MAC' => $agent->identificationID)));
+  backdrop_goto('agents/' . $agent->identificationID);
 
 }
 
@@ -190,7 +190,7 @@ function mock_agent_delete($form, &$form_state, $agent){
   $form_state['agent'] = $agent;
 
   $form['message'] = array(
-    '#markup' => t('Are you sure want to delete !MAC agent?', array('!MAC' => $agent->MAC)),
+    '#markup' => t('Are you sure want to delete !MAC agent?', array('!MAC' => $agent->identificationID)),
   );
   $form['actions']['#type'] = 'actions';
   $form['actions']['submit'] = array(
@@ -211,6 +211,6 @@ function mock_agent_delete_submit($form, &$form_state) {
     ->condition('aid', $agent->aid)
     ->execute();
 
-  backdrop_set_message(t('Agent !MAC deleted!', array('!MAC' => $agent->MAC)));
+  backdrop_set_message(t('Agent !MAC deleted!', array('!MAC' => $agent->identificationID)));
   backdrop_goto('agents');
 }

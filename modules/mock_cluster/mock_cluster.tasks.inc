@@ -23,7 +23,7 @@ function mock_cluster_tasks(){
     $agent_display = ('None');
     if($task->aid > 0 ){
       $agent = mock_agent_load_by_id($task->aid);
-      $agent_display = l($agent->MAC, 'agents/' . $agent->MAC);
+      $agent_display = l($agent->identificationID, 'agents/' . $agent->identificationID);
     }
     
     $package = pathinfo($task->url);
