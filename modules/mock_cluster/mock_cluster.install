@@ -182,5 +182,5 @@ function mock_cluster_update_1004() {
   $schema = backdrop_get_schema_unprocessed('mock_cluster');
   db_drop_field('mock_agents', 'MAC');
   db_add_field('mock_agents', 'identificationID', $schema['mock_agents']['fields']['identificationID']);
-  db_add_index('comment', 'identificationID', array('identificationID');
+  db_add_index('comment', 'identificationID', array('identificationID'));
 }
