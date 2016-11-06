@@ -186,25 +186,70 @@ function mock_cluster_rest_task_by_id($task){
             if($updated) {
               return array('status' => 'pending');
             } else {
-              array('error' => true, 'message' => 'Task is not available.'. print_r($_SERVER, true) . print_r($agent,true) . print_r($task,true));
+              array('error' => true, 'message' => 'Task is not available.');
             }
-            return array('error' => true, 'message' => 'Task is not available.'. print_r($_SERVER, true) . print_r($agent,true) . print_r($task,true));
+            return array('error' => true, 'message' => 'Task is not available.');
 
           break;
         case 'update':
             if($task->status != MOCK_TASK_PROCESSING && $task->aid != $agent->aid) {
-              return array('error' => true, 'message' => 'Task is not available.'. print_r($_SERVER, true) . print_r($agent,true) . print_r($task,true));
+              return array('error' => true, 'message' => 'Task is not available.');
             }
-            if(isset($data['log'])) {
-              $log_folder = 'private://mock_logs/';
-              file_prepare_directory($log_folder, FILE_CREATE_DIRECTORY);
-              file_unmanaged_save_data($data['log'], $log_folder . '/' . $task->tid . '.log', FILE_EXISTS_REPLACE);
-            }
+            
+            mock_cluster_save_log($task,$data);
+
             return array('message' => 'Task updated.');
           break;
+        case 'finished':
+            if($task->status != MOCK_TASK_PROCESSING && $task->aid != $agent->aid) {
+              return array('error' => true, 'message' => 'Task is not available.'. print_r($_SERVER, true) . print_r($agent,true) . print_r($task,true));
+            }
+            
+            if(!isset($data['status'])) {
+              return array('error' => true, 'message' => 'status is required');
+            }
+            
+            $status = 0;
+            switch($data['status']){
+              case 'success':
+                $status = MOCK_TASK_SUCCESS;
+                break;
+              case 'failure':
+                $status = MOCK_TASK_FAILED;
+                break;
+              default:
+                return array('error' => true, 'message' => 'status has to be success or failure');
+            }
+            
+            mock_cluster_save_log($task,$data);
+            
+            
+            $updated = db_update('mock_tasks')
+              ->fields(array(
+                'status' => $status,
+                'changed' => REQUEST_TIME)
+              )
+              ->condition('tid', $task->tid)
+              ->condition('status', MOCK_TASK_PROCESSING)
+              ->execute();
+            return array('message' => 'Task finished.');            
       }
       
     break;
+  }
+}
+
+function mock_cluster_save_log($task, $data) {
+  if(isset($data['log'])) {
+    $log_folder = 'private://mock_logs/' . $task->tid;
+    file_prepare_directory($log_folder, FILE_CREATE_DIRECTORY);
+    
+    file_unmanaged_save_data(base64_decode($data['log']), $log_folder . '/exec.log', FILE_EXISTS_REPLACE);
+    
+    file_unmanaged_save_data(base64_decode($data['mock']['build']), $log_folder . '/build.log', FILE_EXISTS_REPLACE);
+    file_unmanaged_save_data(base64_decode($data['mock']['state']), $log_folder . '/state.log', FILE_EXISTS_REPLACE);
+                  
+    file_unmanaged_save_data(base64_decode($data['mock']['root']), $log_folder . '/root.log', FILE_EXISTS_REPLACE);
   }
 }
 
