@@ -143,6 +143,10 @@ function mock_cluster_rest_task_by_id($task){
   $method = $_SERVER['REQUEST_METHOD'];
   $received_json = '';
   switch($method){
+    case 'POST':
+      print_r($_SERVER);
+      print_r($_FILES);
+      return(array('message' => 'uploaded'));      
     case 'PUT':
       if(!$data = mock_cluster_rest_request_content($received_json)){
         return array('error' => true, 'message' => 'Bad request. No data provided.');
