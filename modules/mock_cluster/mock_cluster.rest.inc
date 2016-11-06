@@ -255,10 +255,15 @@ function mock_cluster_save_log($task, $data) {
     
     file_unmanaged_save_data(base64_decode($data['log']), $log_folder . '/exec.log', FILE_EXISTS_REPLACE);
     
-    file_unmanaged_save_data(base64_decode($data['mock']['build']), $log_folder . '/build.log', FILE_EXISTS_REPLACE);
-    file_unmanaged_save_data(base64_decode($data['mock']['state']), $log_folder . '/state.log', FILE_EXISTS_REPLACE);
-                  
-    file_unmanaged_save_data(base64_decode($data['mock']['root']), $log_folder . '/root.log', FILE_EXISTS_REPLACE);
+    if(isset($data['mock']['build'])){
+      file_unmanaged_save_data(base64_decode($data['mock']['build']), $log_folder . '/build.log', FILE_EXISTS_REPLACE);
+    };
+    if(isset($data['mock']['state'])){
+      file_unmanaged_save_data(base64_decode($data['mock']['state']), $log_folder . '/state.log', FILE_EXISTS_REPLACE);
+    };
+    if(isset($data['mock']['root'])){
+      file_unmanaged_save_data(base64_decode($data['mock']['root']), $log_folder . '/root.log', FILE_EXISTS_REPLACE);
+    }
   }
 }
 
