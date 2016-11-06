@@ -65,6 +65,7 @@ function mock_task_add($form, &$form_state) {
   $form['url'] = array(
     '#type' => 'textfield',
     '#title' => t('URL'),
+    '#maxlength' => 253,
     '#description' => t('SRPM url to build'),
   );
 
