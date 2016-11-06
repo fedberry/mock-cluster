@@ -73,7 +73,7 @@ function mock_cluster_rest_auth() {
           break;
         case 'token':
             if(!isset($data['identificationID'])){
-              return array('error' => true, 'message' => 'MAC value is required.');
+              return array('error' => true, 'message' => 'identificationID value is required.');
             }
             if(!isset($data['arch'])){
               return array('error' => true, 'message' => 'arch value is required.');
@@ -87,7 +87,7 @@ function mock_cluster_rest_auth() {
               ->fetchObject();
 
             if(empty($agent)){
-              return array('error' => true, 'message' => 'Agent with this MAC is not registered.');
+              return array('error' => true, 'message' => 'Agent with this identificationID is not registered.');
             }else {
               if(!_is_rest_authorised($agent, $received_json)) {
                 return array('error' => true, 'message' => 'Authorization failed.');
@@ -150,7 +150,8 @@ function mock_cluster_rest_task_by_id($task){
       file_prepare_directory($log_folder, FILE_CREATE_DIRECTORY);
       file_unmanaged_save_data($input, $log_folder . '/' . $filename, FILE_EXISTS_REPLACE);
 
-      return(array('message' => $filename . ' uploaded'));      
+      return(array('message' => $filename . ' uploaded'));
+      
     case 'PUT':
       if(!$data = mock_cluster_rest_request_content($received_json)){
         return array('error' => true, 'message' => 'Bad request. No data provided.');
@@ -273,8 +274,8 @@ function mock_cluster_rest_task(){
       if(!$data = mock_cluster_rest_request_content($received_json)){
         return array('error' => true, 'message' => 'Bad request. No data provided.');
       }
-      if(!isset($data['MAC'])){
-        return array('error' => true, 'message' => 'MAC value is required.');
+      if(!isset($data['identificationID'])){
+        return array('error' => true, 'message' => 'identificationID value is required.');
       }
       if(!isset($data['arch'])){
         return array('error' => true, 'message' => 'arch value is required.');
@@ -282,7 +283,7 @@ function mock_cluster_rest_task(){
 
       $agent = db_select('mock_agents', 'ma')
         ->fields('ma')
-        ->condition('MAC', $data['MAC'])
+        ->condition('identificationID', $data['identificationID'])
         ->condition('arch', $data['arch'])
         ->execute()
         ->fetchObject();
