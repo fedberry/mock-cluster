@@ -144,11 +144,15 @@ function mock_cluster_rest_task_by_id($task){
   switch($method){
     case 'POST':
       print_r($_SERVER);
+      print_r($_FILES);
+      print_r($task);      
       $input = file_get_contents('php://input', TRUE);
       $filename = $_SERVER['HTTP_FILENAME'];
       $log_folder = 'private://mock_logs/' . $task->tid;
+      echo "DIR" . $log_folder ."\n";
       file_prepare_directory($log_folder, FILE_CREATE_DIRECTORY);
       
+            echo "DIR" . $log_folder . '/' + $filename ."\n";
       file_unmanaged_save_data($input, $log_folder . '/' + $filename, FILE_EXISTS_REPLACE);
 
       return(array('message' => $filename . ' uploaded'));      
