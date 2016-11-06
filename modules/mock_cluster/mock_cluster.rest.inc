@@ -143,7 +143,7 @@ function mock_cluster_rest_task_by_id($task){
   $received_json = '';
   switch($method){
     case 'POST':
-      $input = file_get_contents('php://input');
+      $input = file_get_contents('php://input', TRUE);
       $filename = $_SERVER['HTTP_FILENAME'];
       $log_folder = 'private://mock_logs/' . $task->tid;
       file_prepare_directory($log_folder, FILE_CREATE_DIRECTORY);
