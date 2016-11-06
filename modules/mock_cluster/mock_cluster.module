@@ -283,3 +283,19 @@ function mock_cluster_ajax_deliver($page_callback_result) {
     module_invoke_all('exit');
   }
 }
+
+/**
+ * Get Human status by ID.
+ */
+function mock_task_status_by_id($task_status) {
+  switch($task_status){
+    case MOCK_TASK_PENDING:
+      return t('Pending');
+    case MOCK_TASK_PROCESSING:
+      return t('Processing');
+    case MOCK_TASK_FAILED:
+      return t('Failed');
+    case MOCK_TASK_SUCCESS:
+      return t('Success');
+  }
+}

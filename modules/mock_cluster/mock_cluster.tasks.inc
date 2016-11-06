@@ -19,19 +19,7 @@ function mock_cluster_tasks(){
   
   foreach ($tasks as $task) {
     $row = array();
-    $status = t('Pending');
-    switch($task->status) {
-      case 1: 
-        $status = t('Active');
-        break;
-      case 2: 
-        $status = t('Failed');
-        break;
-      case 3: 
-        $status = t('Success');
-        break;
-    }
-    
+
     $agent_display = ('None');
     if($task->aid > 0 ){
       $agent = mock_agent_load_by_id($task->aid);
@@ -43,7 +31,7 @@ function mock_cluster_tasks(){
     $row[] = array( 'data' => l($task->tid, 'tasks/' . $task->tid ) );
     $row[] = array( 'data' => l($package['basename'], $task->url, array('attributes' => array('absolute' => TRUE)) ) );
     $row[] = array( 'data' => $task->arch );
-    $row[] = array( 'data' => $status );
+    $row[] = array( 'data' => mock_task_status_by_id($task->status) );
     $row[] = array( 'data' => $agent_display );
     $row[] = array( 'data' => theme('username', array('account' => user_load($task->uid))));
     
