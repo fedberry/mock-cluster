@@ -176,7 +176,7 @@ function mock_cluster_update_1003() {
 }
 
 /**
- * Add fields token, token_expire to table mock_agents."
+ * Replace field MAC with identificationID in table mock_agents."
  */
 function mock_cluster_update_1004() {
   $schema = backdrop_get_schema_unprocessed('mock_cluster');
