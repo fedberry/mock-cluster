@@ -215,9 +215,9 @@ function mock_cluster_schema() {
         'description' => "SRPM url base.",
       ),
     ),
-    'primary key' => array('tid'),
     'indexes' => array(
       'type' => array('type'),
+      'tid' => array('tid'),      
     ),
 
   );

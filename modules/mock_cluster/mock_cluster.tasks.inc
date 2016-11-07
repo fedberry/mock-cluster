@@ -50,6 +50,7 @@ function mock_cluster_tasks(){
     
     $files = db_select('mock_tasks_files', 'mtf')
       ->fields('mtf')
+      ->condition('tid', $task->tid)
       ->orderBy('url', 'ASC')
       ->execute()
       ->fetchAll();
@@ -190,7 +191,30 @@ function mock_cluster_task($task){
   
   $output .= '<dt>' . t('Source RPM'). '</dt>';
   $output .= '<dd>' . l($package['basename'], $task->url, array('attributes' => array('absolute' => TRUE)) )  . '</dd>';
-
+  
+  $files = db_select('mock_tasks_files', 'mtf')
+    ->fields('mtf')
+    ->condition('tid', $task->tid)
+    ->orderBy('url', 'ASC')
+    ->execute()
+    ->fetchAll();
+    
+  $links = array();
+  
+  if($files){
+    foreach($files as $file) {
+      $file_info = pathinfo($file->url);
+      $links[$file_info['basename']] = array(
+        'title' => $file_info['basename'],
+        'href' => $file->url,
+        'attributes' => array('absolute' => TRUE)
+      );
+    }
+  }
+    
+  $output .= '<dt>' . t('Result files'). '</dt>';
+  $output .= '<dd>' . theme('links',array('links' => $links, 'attributes' => array() )) . '</dd>';
+    
   $output .= '<dt>' . t('Created'). '</dt>';
   $output .= '<dd>' . format_date($task->created) . '</dd>';
 
