@@ -158,9 +158,27 @@ function mock_cluster_rest_task_by_id($task){
       
       $input = file_get_contents('php://input', TRUE);
       $filename = $_SERVER['HTTP_FILENAME'];
-      $log_folder = 'private://mock_logs/' . $task->tid;
+      
+      $srpm = FALSE;
+      if(strlen($filename) > 8) {
+        $end = substr($filename, -7);
+        if($end == "src.rpm") {
+          $srpm = TRUE;
+        }
+      }
+      if($arch = mock_arch_load($agent->arch)) {
+        if($srpm) {
+          $log_folder = $arch->srpm_dir;
+        } else {
+          $log_folder = $arch->rpm_dir;
+        }
+      } else {
+        $log_folder = 'private://mock_logs/' . $task->tid;
+      }
+      if(!file_exists($log_folder)){
+        file_prepare_directory($log_folder, FILE_CREATE_DIRECTORY);
+      }
 
-      file_prepare_directory($log_folder, FILE_CREATE_DIRECTORY);
       file_unmanaged_save_data($input, $log_folder . '/' . $filename, FILE_EXISTS_REPLACE);
 
       return(array('message' => $filename . ' uploaded'));
