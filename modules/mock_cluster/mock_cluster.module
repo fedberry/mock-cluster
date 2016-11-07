@@ -202,16 +202,16 @@ function mock_cluster_menu() {
     'page arguments' => array('mock_arch_delete', 3),
     'access arguments' => array('administer mock cluster'),
     'file' => 'mock_cluster.admin.inc',
-    'type' => MENU_LOCAL_TASK,
+    'type' => MENU_CALLBACK,
   );
 
   $items['admin/config/mock_cluster/$mock_arch/edit'] = array(
-    'title' => 'Delete',
+    'title' => 'Edit',
     'page callback' => 'backdrop_get_form',
     'page arguments' => array('mock_arch_edit', 3),
     'access arguments' => array('administer mock cluster'),
     'file' => 'mock_cluster.admin.inc',
-    'type' => MENU_LOCAL_TASK,
+    'type' => MENU_CALLBACK,
   );
 
   
