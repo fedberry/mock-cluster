@@ -143,6 +143,19 @@ function mock_cluster_rest_task_by_id($task){
   $received_json = '';
   switch($method){
     case 'POST':
+      $token = $_SERVER['HTTP_TOKEN'];
+      $agent = db_select('mock_agents', 'ma')
+        ->fields('ma')
+        ->condition('token', $token)
+        ->execute()
+        ->fetchObject();
+      if(!$agent) {
+        return array('error' => true, 'message' => 'Authorization failed. Token is not valid.');
+      }
+      if($agent->token != $token) {
+        return array('error' => true, 'message' => 'Authorization failed. Token is not valid.');
+      }
+      
       $input = file_get_contents('php://input', TRUE);
       $filename = $_SERVER['HTTP_FILENAME'];
       $log_folder = 'private://mock_logs/' . $task->tid;
