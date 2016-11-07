@@ -32,10 +32,16 @@ function mock_cluster_tasks(){
     
     $row[] = array( 'data' => l($task->tid, 'tasks/' . $task->tid ) );
     $package =  l($package['basename'], $task->url, array('attributes' => array('absolute' => TRUE)) );
-    $package .= '<div>'
-      . '<div>' . t('Created') . ':' . format_date($task->created, 'short') . '</div>'
-      . '<div>' . t('Changed') . ':' . format_date($task->changed, 'short') . '</div>'
-      .'</div>';
+    $package .= '<div>';
+    
+    if($task->status == 0) {
+      $package .= t('Created: !time ago', array('!time' => format_interval((REQUEST_TIME - $task->created), 2)));
+    } elseif($task->status == 1 ) {
+      $package .= t('Started: !time ago', array('!time' => format_interval((REQUEST_TIME - $task->created), 2)));
+    }else {
+      $package .= t('Finished: !time ago', array('!time' => format_interval((REQUEST_TIME - $task->changed), 2)));
+    }
+    $package .= '</div>';
     $row[] = array( 'data' => $package);
     $row[] = array( 'data' => $task->arch );
     $row[] = array( 'data' => mock_task_status_by_id($task->status) );
