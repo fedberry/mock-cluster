@@ -166,11 +166,14 @@ function mock_cluster_rest_task_by_id($task){
           $srpm = TRUE;
         }
       }
+      $url = 'http://mock.fedberry.org/task/' . $task->tid . '/download/';
       if($arch = mock_arch_load($agent->arch)) {
         if($srpm) {
           $log_folder = $arch->srpm_dir;
+          $url = $arch->srpm_url;
         } else {
           $log_folder = $arch->rpm_dir;
+          $url = $arch->rpm_url;
         }
       } else {
         $log_folder = 'private://mock_logs/' . $task->tid;
@@ -178,8 +181,14 @@ function mock_cluster_rest_task_by_id($task){
       if(!file_exists($log_folder)){
         file_prepare_directory($log_folder, FILE_CREATE_DIRECTORY);
       }
-
+      
       file_unmanaged_save_data($input, $log_folder . '/' . $filename, FILE_EXISTS_REPLACE);
+      $record = array(
+        'tid' => $task->tid,
+        'type' => $srpm ? 'srpm' : 'rpm',
+        'url' => $url . $filename,
+      );
+      backdrop_write_record('mock_tasks_files', $record);
 
       return(array('message' => $filename . ' uploaded'));
       
