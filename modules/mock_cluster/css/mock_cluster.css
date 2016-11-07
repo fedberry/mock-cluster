@@ -3,8 +3,8 @@ tr.status-Success {
   color: #3dde4b;
 }
 
-tr.status-Pending {
-  color: black;
+tr.status-Processing {
+  color: #2533fd;
 }
 
 tr.status-Failed {
