@@ -151,7 +151,7 @@ function mock_cluster_task($task){
   );
 
   $output .= '<dt>' . t('Mock logs'). '</dt>';
-  $output .= '<dd>' . theme_links(array('#links' => $links)). '</dd>';
+  $output .= '<dd>' . theme_links(array('links' => $links)). '</dd>';
 
   $output .= '</dl>';
   return $output;
