@@ -149,6 +149,47 @@ function mock_cluster_schema() {
       'changed' => array('changed'),
     ),
   );
+  $schema['mock_arch'] = array(
+    'description' => 'Map arch to directory.',
+    'fields' => array(
+      'arch' => array(
+        'type' => 'varchar',
+        'length' => 10,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'Supported ARCH.',
+      ),
+      'rpm_url' => array(
+        'type' => 'varchar',
+        'length' => 254,
+        'not null' => FALSE,
+        'default' => '',
+        'description' => "RPM url base.",
+      ),
+      'srpm_url' => array(
+        'type' => 'varchar',
+        'length' => 254,
+        'not null' => FALSE,
+        'default' => '',
+        'description' => "SRPM url base.",
+      ),
+      'rpm_dir' => array(
+        'type' => 'varchar',
+        'length' => 254,
+        'not null' => FALSE,
+        'default' => '',
+        'description' => "RPM local directory.",
+      ),
+      'srpm_dir' => array(
+        'type' => 'varchar',
+        'length' => 254,
+        'not null' => FALSE,
+        'default' => '',
+        'description' => "SRPM local directory.",
+      ),
+    ),
+    'primary key' => array('arch'),
+  );
   return $schema; 
 }
 
@@ -199,4 +240,12 @@ function mock_cluster_update_1005() {
 function mock_cluster_update_1006() {
   db_add_index('mock_tasks', 'created', array('created'));
   db_add_index('mock_tasks', 'changed', array('changed'));
+}
+
+/**
+ * Create table mock_arch."
+ */
+function mock_cluster_update_1007() {
+  $schema = backdrop_get_schema_unprocessed('mock_cluster');
+  db_create_table('mock_arch', $schema['mock_arch']);
 }
