@@ -16,7 +16,8 @@ function mock_cluster_tasks(){
     array('data' => 'ARCH', 'field' => 'mt.arch'),    
     array('data' => 'Status', 'field' => 'mt.status'),    
     array('data' => 'Agent ID', 'field' => 'mt.aid'),    
-    array('data' => 'Owner', 'field' => 'mt.uid')
+    array('data' => 'Owner', 'field' => 'mt.uid'),
+    array('data' => 'Operations'),
   );
   
   $query = db_select('mock_tasks', 'mt')->extend('TableSort')->extend('AltPager');
@@ -29,6 +30,8 @@ function mock_cluster_tasks(){
 
   $rows = array();
   
+  $is_admin = user_access('administer mock tasks');
+    
   foreach ($tasks as $task) {
     $row = array();
 
@@ -90,7 +93,26 @@ function mock_cluster_tasks(){
     $row[] = array( 'data' => $agent_display );
     $row[] = array( 'data' => theme('username', array('account' => user_load($task->uid))));
     
+    $links = array();
 
+    $links['view'] = array(
+      'title' => t('View'),
+      'href' => "tasks/" . $task->tid,
+    );
+
+    if($is_admin) {
+      $links['edit'] = array(
+        'title' => t('Edit'),
+        'href' => "tasks/" . $task->tid . "/edit",
+      );
+    }
+    $row[] = array(
+        'data' => array(
+          '#type' => 'operations',
+          '#links' => $links,
+        ),
+      );
+      
     $rows[] = array(
       'data' => $row,
       'class' => array('status-' . mock_task_status_by_id($task->status))
@@ -169,6 +191,77 @@ function mock_task_add_submit($form, &$form_state) {
       backdrop_set_message(t('Task !id activated!', array('!id' => $record['tid'])));
     }
   }
+  backdrop_goto('tasks');
+}
+
+/**
+ * Edit arch form.
+ */
+function mock_task_edit($form, &$form_state, $task) {
+
+  $form_state['task'] = $task;
+  
+  $arches = db_select('mock_arch', 'mar')
+    ->fields('mar')
+    ->orderBy('arch', 'ASC')
+    ->execute()
+    ->fetchAll();
+    
+  $options = array();
+  foreach($arches as $arch){
+    $options[$arch->arch] = $arch->arch;
+  }
+    
+  $form['arch'] = array(
+    '#type' => 'select',
+    '#title' => t('Arch'),
+    '#options' => $options,
+    '#default_value' => $task->arch,
+  );
+
+  $form['url'] = array(
+    '#type' => 'textfield',
+    '#title' => t('URL'),
+    '#maxlength' => 253,
+    '#description' => t('SRPM url'),
+    '#default_value' => $task->url
+  );
+  $status_options = array(
+    MOCK_TASK_PENDING => t('Pending'),
+    MOCK_TASK_PROCESSING => t('Processing'), 
+    MOCK_TASK_FAILED => t('Failed'), 
+    MOCK_TASK_SUCCESS => t('Success'), 
+  );
+  $form['status'] = array(
+    '#type' => 'select',
+    '#title' => t('status'),
+    '#options' => $status_options,
+    '#default_value' => $task->status
+    
+  );
+
+  $form['actions']['#type'] = 'actions';
+  $form['actions']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Update'),
+  );
+  return $form;
+}
+
+/**
+ * Submit handler for the mock_task_edit() form.
+ */
+function mock_task_edit_submit($form, &$form_state) {
+  global $user;
+  $record = array(
+    'tid' => $form_state['task']->tid,
+    'url' => $form_state['values']['url'],
+    'status' => $form_state['values']['status'],
+    'changed' => REQUEST_TIME,
+  );
+  backdrop_write_record('mock_tasks', $record, array('tid'));
+
+  backdrop_set_message(t('Task !tid updated!', array('!tid' => $form_state['task']->tid)));
   backdrop_goto('tasks');
 }
 
