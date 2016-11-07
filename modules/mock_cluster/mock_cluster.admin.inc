@@ -187,6 +187,7 @@ function mock_arch_edit($form, &$form_state, $arch) {
   $form['arch'] = array(
     '#type' => 'textfield',
     '#title' => t('Arch'),
+    '#default_value' => $arch->arch
     '#disabled' => true,
   );
 
