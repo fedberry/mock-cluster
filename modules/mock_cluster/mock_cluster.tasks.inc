@@ -84,13 +84,22 @@ function mock_cluster_tasks(){
  * Add task form.
  */
 function mock_task_add($form, &$form_state) {
+  
+  $arches = db_select('mock_arch', 'mar')
+    ->fields('mar')
+    ->orderBy('arch', 'ASC')
+    ->execute()
+    ->fetchAll();
+    
+  $options = array();
+  foreach($arches as $arch){
+    $options[$arch->arch] = $arch->arch;
+  }
+    
   $form['arch'] = array(
     '#type' => 'select',
     '#title' => t('Arch'),
-    '#options' => array(
-      'armv6l' => 'ARMv6l',
-      'armv7l' => 'ARMv7l',
-    ),
+    '#options' => $options,
   );
 
   $form['url'] = array(
