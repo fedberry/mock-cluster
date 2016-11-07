@@ -317,6 +317,7 @@ function mock_cluster_rest_task(){
           ->fields('mt')
           ->condition('arch', $agent->arch)
           ->condition('status', MOCK_TASK_PENDING)
+          ->orderBy('created', 'ASC')
           ->execute()
           ->fetchObject();
           
