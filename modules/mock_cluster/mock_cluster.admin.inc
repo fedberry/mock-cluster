@@ -241,8 +241,8 @@ function mock_arch_edit_submit($form, &$form_state) {
     'rpm_dir' => $form_state['values']['rpm_dir'],
     'srpm_dir' => $form_state['values']['srpm_dir'],
   );
-  backdrop_write_record('mock_arch', $record, array('arch' => $form_state['values']['arch']));
+  backdrop_write_record('mock_arch', $record, array('arch' => $form_state['arch']->arch));
 
-  backdrop_set_message(t('ARCH !arch updated!', array('!arch' => $record['arch'])));
+  backdrop_set_message(t('ARCH !arch updated!', array('!arch' => $form_state['arch']->arch)));
   backdrop_goto('admin/config/mock_cluster/arch');
 }
