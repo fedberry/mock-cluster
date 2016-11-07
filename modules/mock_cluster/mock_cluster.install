@@ -145,6 +145,8 @@ function mock_cluster_schema() {
     'indexes' => array(
       'status' => array('status'),
       'arch' => array('arch'),
+      'created' => array('created'),
+      'changed' => array('changed'),
     ),
   );
   return $schema; 
@@ -183,9 +185,18 @@ function mock_cluster_update_1004() {
   db_drop_field('mock_agents', 'MAC');
   db_add_field('mock_agents', 'identificationID', $schema['mock_agents']['fields']['identificationID']);
 }
+
 /**
  * Add index identificationID."
  */
 function mock_cluster_update_1005() {
   db_add_index('mock_agents', 'identificationID', array('identificationID'));
+}
+
+/**
+ * Add index created, changed to mock_tasks.
+ */
+function mock_cluster_update_1005() {
+  db_add_index('mock_tasks', 'created', array('created'));
+  db_add_index('mock_tasks', 'changed', array('changed'));
 }
