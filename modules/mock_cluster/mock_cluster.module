@@ -162,6 +162,20 @@ function mock_cluster_menu() {
     'access arguments' => array('administer mock cluster'),
     'file' => 'mock_cluster.admin.inc',
   );
+  
+  $items['admin/config/mock_cluster/view'] = array(
+    'title' => 'Mock cluster configuration',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+  );  
+  
+  $items['admin/config/mock_cluster/arch'] = array(
+    'title' => 'arch',
+    'description' => 'Configure mock cluster.',
+    'page callback' => 'mock_cluster_arch',
+    'access arguments' => array('administer mock cluster'),
+    'file' => 'mock_cluster.admin.inc',
+    'type' => MENU_LOCAL_TASK,    
+  );
 
   $items['tasks'] = array(
     'title' => 'Tasks',
