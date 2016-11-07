@@ -43,10 +43,6 @@ function mock_cluster_agents(){
     $row[] = array( 'data' => theme('username', array('account' => user_load($agent->uid))));
     
     if($is_admin) {
-      $links['delete'] = array(
-        'title' => t('Delete'),
-        'href' => "agents/" . $agent->identificationID . "/delete",
-      );
       if($agent->status == MOCK_AGENT_PENDING or $agent->status == MOCK_AGENT_BLOCKED) {
         $links['status'] = array(
           'title' => t('Activate'),
@@ -58,6 +54,10 @@ function mock_cluster_agents(){
           'href' => "agents/" . $agent->identificationID . "/block",
         );
       }
+      $links['delete'] = array(
+        'title' => t('Delete'),
+        'href' => "agents/" . $agent->identificationID . "/delete",
+      );
       $row[] = array(
         'data' => array(
           '#type' => 'operations',
