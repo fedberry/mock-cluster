@@ -190,6 +190,38 @@ function mock_cluster_schema() {
     ),
     'primary key' => array('arch'),
   );
+
+ $schema['mock_tasks_files'] = array(
+    'description' => 'Map arch to directory.',
+    'fields' => array(
+      'tid' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Task ID.',
+      ),
+      'type' => array(
+        'type' => 'varchar',
+        'length' => 254,
+        'not null' => FALSE,
+        'default' => '',
+        'description' => "rpm or srpm.",
+      ),
+      'url' => array(
+        'type' => 'varchar',
+        'length' => 254,
+        'not null' => FALSE,
+        'default' => '',
+        'description' => "SRPM url base.",
+      ),
+    ),
+    'primary key' => array('tid'),
+    'indexes' => array(
+      'type' => array('type'),
+    ),
+
+  );
+  
   return $schema; 
 }
 
@@ -248,4 +280,12 @@ function mock_cluster_update_1006() {
 function mock_cluster_update_1007() {
   $schema = backdrop_get_schema_unprocessed('mock_cluster');
   db_create_table('mock_arch', $schema['mock_arch']);
+}
+
+/**
+ * Create table mock_tasks_files."
+ */
+function mock_cluster_update_1008() {
+  $schema = backdrop_get_schema_unprocessed('mock_cluster');
+  db_create_table('mock_tasks_files', $schema['mock_tasks_files']);
 }
