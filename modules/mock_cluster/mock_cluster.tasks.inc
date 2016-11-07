@@ -135,10 +135,9 @@ function mock_task_add($form, &$form_state) {
   );
 
   $form['url'] = array(
-    '#type' => 'textfield',
+    '#type' => 'textarea',
     '#title' => t('URL'),
-    '#maxlength' => 253,
-    '#description' => t('SRPM url to build'),
+    '#description' => t('SRPM url to build. Use newline to separate multiple.'),
   );
 
   $form['actions']['#type'] = 'actions';
@@ -154,18 +153,23 @@ function mock_task_add($form, &$form_state) {
  */
 function mock_task_add_submit($form, &$form_state) {
   global $user;
-  $record = array(
-    'arch' => $form_state['values']['arch'],
-    'url' => $form_state['values']['url'],
-    'created' => REQUEST_TIME,
-    'changed' => REQUEST_TIME,
-    'status' => MOCK_TASK_PENDING,
-    'uid' => $user->uid
-  );
-  backdrop_write_record('mock_tasks', $record);
-
-  backdrop_set_message(t('Task !id activated!', array('!id' => $record['tid'])));
-  backdrop_goto('tasks/' . $record['tid']);
+  
+  $urls = explode("\n", $form_state['values']['url']);
+  foreach($urls as $url){
+    if(!empty($url)){
+      $record = array(
+        'arch' => $form_state['values']['arch'],
+        'url' => $url,
+        'created' => REQUEST_TIME,
+        'changed' => REQUEST_TIME,
+        'status' => MOCK_TASK_PENDING,
+        'uid' => $user->uid
+      );
+      backdrop_write_record('mock_tasks', $record);
+      backdrop_set_message(t('Task !id activated!', array('!id' => $record['tid'])));
+    }
+  }
+  backdrop_goto('tasks');
 }
 
 
