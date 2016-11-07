@@ -179,7 +179,7 @@ function mock_cluster_task_download($task, $file) {
         $log_file = 'private://mock_logs/' . $task->tid . '/' . $file . '.log';
       break;
     default:
-      return FALSE;
+      return backdrop_access_denied();
   }
   
   $headers = array(
