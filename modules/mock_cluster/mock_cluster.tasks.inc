@@ -31,7 +31,12 @@ function mock_cluster_tasks(){
     $package = pathinfo($task->url);
     
     $row[] = array( 'data' => l($task->tid, 'tasks/' . $task->tid ) );
-    $row[] = array( 'data' => l($package['basename'], $task->url, array('attributes' => array('absolute' => TRUE)) ) );
+    $package =  l($package['basename'], $task->url, array('attributes' => array('absolute' => TRUE)) );
+    $package .= '<div>'
+      . '<div>' . t('Created') . ':' . format_date($task->created, 'short') . '</div>'
+      . '<div>' . t('Changed') . ':' . format_date($task->changed, 'short') . '</div>'
+      .'</div>';
+    $row[] = array( 'data' => $package);
     $row[] = array( 'data' => $task->arch );
     $row[] = array( 'data' => mock_task_status_by_id($task->status) );
     $row[] = array( 'data' => $agent_display );
