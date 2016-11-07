@@ -165,7 +165,7 @@ function mock_arch_delete($form, &$form_state, $arch){
 /**
  * Submit handler for the mock_arch_delete() form.
  */
-function mock_agent_delete_submit($form, &$form_state) {
+function mock_arch_delete_submit($form, &$form_state) {
   global $user;
   $arch =  $form_state['arch'];
   db_delete('mock_arch')
