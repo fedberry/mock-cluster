@@ -196,7 +196,7 @@ function mock_cluster_update_1005() {
 /**
  * Add index created, changed to mock_tasks.
  */
-function mock_cluster_update_1005() {
+function mock_cluster_update_1006() {
   db_add_index('mock_tasks', 'created', array('created'));
   db_add_index('mock_tasks', 'changed', array('changed'));
 }
