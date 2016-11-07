@@ -46,13 +46,13 @@ function mock_cluster_arch() {
     $row[] = array( 'data' => l('RPM', $arch->rpm_url) );
     $row[] = array( 'data' => l('SRPM', $arch->srpm_url) );
     
-    $links['delete'] = array(
-      'title' => t('Delete'),
-      'href' => "admin/config/mock_cluster/arch/" . $arch->arch . "/delete",
-    );
     $links['edit'] = array(
       'title' => t('Edit'),
       'href' => "admin/config/mock_cluster/arch/" . $arch->arch . "/edit",
+    );
+    $links['delete'] = array(
+      'title' => t('Delete'),
+      'href' => "admin/config/mock_cluster/arch/" . $arch->arch . "/delete",
     );
     $row[] = array(
       'data' => array(
