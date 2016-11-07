@@ -107,7 +107,13 @@ function mock_agent_load_by_id($aid){
 }
 
 /**
- * Menu item title callback - use the user name.
+ * Menu item title callback - show task title.
+ */
+function mock_task_title($task) {
+  return is_object($task) ? t("Task #!tid", array('tid' => $task->tid)) : '';
+}
+/**
+ * Menu item title callback - show agent title.
  */
 function mock_agent_title($agent) {
   return is_object($agent) ? $agent->identificationID : '';
@@ -180,6 +186,22 @@ function mock_cluster_menu() {
     'type' => MENU_LOCAL_TASK,
   );
   
+  
+  $items['tasks/%mock_task'] = array(
+    'type' => MENU_CALLBACK,    
+    'title callback' => 'mock_task_title',
+    'title arguments' => array(1),
+    'page callback' => 'mock_cluster_task',
+    'page arguments' => array(1),
+    'access arguments' => array('access content'),
+    'file' => 'mock_cluster.tasks.inc',
+  );
+
+  $items['tasks/%mock_task/view'] = array(
+    'title callback' => 'mock_task_title',
+    'title arguments' => array(1),
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+  );
     
   $items['agents'] = array(
     'title' => 'Agents',

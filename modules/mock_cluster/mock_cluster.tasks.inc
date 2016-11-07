@@ -100,3 +100,35 @@ function mock_task_add_submit($form, &$form_state) {
   backdrop_set_message(t('Task !id activated!', array('!id' => $record['tid'])));
   backdrop_goto('tasks/' . $record['tid']);
 }
+
+
+function mock_cluster_task($task){
+  $output = '<dl>';
+  $output .= '<dt>' . t('TID'). '</dt>';
+  $output .= '<dd>' . $task->id . '</dd>';
+
+  $output .= '<dt>' . t('ARCH'). '</dt>';
+  $output .= '<dd>' . $task->arch . '</dd>';
+
+  $output .= '<dt>' . t('Status'). '</dt>';
+  $status = mock_task_status_by_id($task->status);
+
+  $output .= '<dd class="status-' . $status . ' ">' . $status . '</dd>';
+
+  $output .= '<dt>' . t('Owner'). '</dt>';
+  $output .= '<dd>' . theme('username', array('account' => user_load($task->uid))) . '</dd>';
+  
+  $package = pathinfo($task->url);
+  
+  $output .= '<dt>' . t('Source RPM'). '</dt>';
+  $output .= '<dd>' . l($package['basename'], $task->url, array('attributes' => array('absolute' => TRUE)) )  . '</dd>';
+
+  $output .= '<dt>' . t('Created'). '</dt>';
+  $output .= '<dd>' . format_date($task->created) . '</dd>';
+
+  $output .= '<dt>' . t('Last activity'). '</dt>';
+  $output .= '<dd>' . format_date($task->access) . '</dd>';
+
+  $output .= '</dl>';
+  return $output;
+}
