@@ -103,7 +103,10 @@ function mock_task_add_submit($form, &$form_state) {
 
 
 function mock_cluster_task($task){
-  $output = '<dl>';
+  backdrop_add_css(backdrop_get_path('module', 'mock_cluster') . '/css/mock_cluster.css');
+  $status = mock_task_status_by_id($task->status);
+
+  $output = '<dl class="status-' . $status . ' ">';
   $output .= '<dt>' . t('TID'). '</dt>';
   $output .= '<dd>' . $task->tid . '</dd>';
 
@@ -111,9 +114,8 @@ function mock_cluster_task($task){
   $output .= '<dd>' . $task->arch . '</dd>';
 
   $output .= '<dt>' . t('Status'). '</dt>';
-  $status = mock_task_status_by_id($task->status);
-
-  $output .= '<dd class="status-' . $status . ' ">' . $status . '</dd>';
+  
+  $output .= '<dd >' . $status . '</dd>';
 
   $output .= '<dt>' . t('Owner'). '</dt>';
   $output .= '<dd>' . theme('username', array('account' => user_load($task->uid))) . '</dd>';

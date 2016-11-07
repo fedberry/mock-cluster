@@ -10,3 +10,18 @@ tr.status-Processing {
 tr.status-Failed {
   color: #f50c0c;
 }
+
+dl.status-Success {
+  border-left: 3px solid #3dde4b;
+  padding-left: 10px;
+}
+
+dl.status-Processing {
+  border-left: 3px solid #2533fd;
+  padding-left: 10px;
+}
+
+dl.status-Failed {
+  border-left: 3px solid #f50c0c;
+  padding-left: 10px;
+}
