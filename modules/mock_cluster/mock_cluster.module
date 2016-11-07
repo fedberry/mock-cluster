@@ -110,7 +110,7 @@ function mock_agent_load_by_id($aid){
  * Menu item title callback - show task title.
  */
 function mock_task_title($task) {
-  return is_object($task) ? t("Task #!tid", array('tid' => $task->tid)) : '';
+  return is_object($task) ? t("Task #!tid", array('!tid' => $task->tid)) : '';
 }
 /**
  * Menu item title callback - show agent title.
