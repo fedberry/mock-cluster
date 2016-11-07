@@ -173,9 +173,13 @@ function mock_cluster_task($task){
 
   $log_file = 'private://mock_logs/' . $task->tid . '/exec.log';
     
-    
+  
   $output .= '<dt>' . t('Exec log'). '</dt>';
-  $output .= '<dd><pre>' . file_get_contents($log_file) . '</pre></dd>';
+  if(file_exists($log_file)){
+    $output .= '<dd><pre>' . file_get_contents($log_file) . '</pre></dd>';
+  } else {
+    $output .= '<dd><pre>' . t('No log yet.') . '</pre></dd>';
+  }
   
   $links = array();
   
