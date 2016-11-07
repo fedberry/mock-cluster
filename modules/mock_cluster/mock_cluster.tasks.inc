@@ -211,9 +211,14 @@ function mock_cluster_task($task){
       );
     }
   }
+  
+  $result_files = t('No files yet');
+  if(!empty($links)){
+    $result_files = theme('links',array('links' => $links, 'attributes' => array() ));
+  }
     
   $output .= '<dt>' . t('Result files'). '</dt>';
-  $output .= '<dd>' . theme('links',array('links' => $links, 'attributes' => array() )) . '</dd>';
+  $output .= '<dd>' . $result_files . '</dd>';
     
   $output .= '<dt>' . t('Created'). '</dt>';
   $output .= '<dd>' . format_date($task->created) . '</dd>';
