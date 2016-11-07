@@ -100,8 +100,8 @@ function mock_task_load($tid){
  * Implements hook_load().
  */
 function mock_arch_load($arch){
-  return db_select('mock_arch', 'mt')
-    ->fields('mt')
+  return db_select('mock_arch', 'mar')
+    ->fields('mar')
     ->condition('arch', $arch)
     ->execute()
     ->fetchObject();
@@ -196,19 +196,19 @@ function mock_cluster_menu() {
     'type' => MENU_LOCAL_TASK,
   );
   
-  $items['admin/config/mock_cluster/$mock_arch/delete'] = array(
+  $items['admin/config/mock_cluster/arch/$mock_arch/delete'] = array(
     'title' => 'Delete',
     'page callback' => 'backdrop_get_form',
-    'page arguments' => array('mock_arch_delete', 3),
+    'page arguments' => array('mock_arch_delete', 4),
     'access arguments' => array('administer mock cluster'),
     'file' => 'mock_cluster.admin.inc',
     'type' => MENU_CALLBACK,
   );
 
-  $items['admin/config/mock_cluster/$mock_arch/edit'] = array(
+  $items['admin/config/mock_cluster/arch/$mock_arch/edit'] = array(
     'title' => 'Edit',
     'page callback' => 'backdrop_get_form',
-    'page arguments' => array('mock_arch_edit', 3),
+    'page arguments' => array('mock_arch_edit', 4),
     'access arguments' => array('administer mock cluster'),
     'file' => 'mock_cluster.admin.inc',
     'type' => MENU_CALLBACK,
