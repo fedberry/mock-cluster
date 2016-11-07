@@ -137,23 +137,35 @@ function mock_cluster_task($task){
   $output .= '<dt>' . t('Exec log'). '</dt>';
   $output .= '<dd><pre>' . file_get_contents($log_file) . '</pre></dd>';
   
-  $links['build'] = array(
-    'title' => t('Build.log'),
-    'href' => "tasks/" . $task->tid . "/download/build",
-  );
+  $links = array();
+  
+  if(is_file('private://mock_logs/' . $task->tid . '/build.log')) {
+    $links['build'] = array(
+      'title' => t('Build.log'),
+      'href' => "tasks/" . $task->tid . "/download/build",
+    );
+  }
 
-  $links['root'] = array(
-    'title' => t('Root.log'),
-    'href' => "tasks/" . $task->tid . "/download/root",
-  );
+  if(is_file('private://mock_logs/' . $task->tid . '/root.log')) {
+    $links['root'] = array(
+      'title' => t('Root.log'),
+      'href' => "tasks/" . $task->tid . "/download/root",
+    );
+  }
 
-  $links['state'] = array(
-    'title' => t('State.log'),
-    'href' => "tasks/" . $task->tid . "/download/state",
-  );
+  if(is_file('private://mock_logs/' . $task->tid . '/state.log')) {  
+    $links['state'] = array(
+      'title' => t('State.log'),
+      'href' => "tasks/" . $task->tid . "/download/state",
+    );
+  }
 
   $output .= '<dt>' . t('Mock logs'). '</dt>';
-  $output .= '<dd>' . theme('links',array('links' => $links, 'attributes' => array() )). '</dd>';
+  if(!empty($links)) {
+    $output .= '<dd>' . theme('links',array('links' => $links, 'attributes' => array() )). '</dd>';
+  } else {
+    $output .= '<dd>' . t('No mock logs available.'). '</dd>';
+  }
 
   $output .= '</dl>';
   return $output;
