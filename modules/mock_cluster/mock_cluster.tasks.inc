@@ -72,7 +72,7 @@ function mock_cluster_tasks(){
       }
     }
     
-    $package =  $package['basename'] .  theme('links',array('links' => $links, 'attributes' => array() ));
+    $package =  l($package['basename'], 'tasks/' . $task->tid ) .  theme('links',array('links' => $links, 'attributes' => array() ));
     $package .= '<div class="timestamp">';
     
     if($task->status == 0) {
