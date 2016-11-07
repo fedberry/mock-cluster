@@ -162,7 +162,8 @@ function mock_cluster_task_download($task, $file) {
     case 'build':
     case 'state':
     case 'root':
-     $log_file = 'private://mock_logs/' . $task->tid . '/' . $file . '.log';
+        $log_file = 'private://mock_logs/' . $task->tid . '/' . $file . '.log';
+      break;
     default:
       return FALSE;
   }
