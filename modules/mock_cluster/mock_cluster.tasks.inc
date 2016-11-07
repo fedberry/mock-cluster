@@ -182,6 +182,10 @@ function mock_cluster_task_download($task, $file) {
       return backdrop_access_denied();
   }
   
+  if(!is_file($log_file)){
+    return backdrop_not_found();
+  }
+  
   $headers = array(
     'Content-Type'              => 'force-download',
     'Content-Disposition'       => 'attachment; filename="' . $file . '.log"',
