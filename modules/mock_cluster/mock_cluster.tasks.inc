@@ -11,9 +11,20 @@
 function mock_cluster_tasks(){
   backdrop_add_css(backdrop_get_path('module', 'mock_cluster') . '/css/mock_cluster.css');
   
+  $header = array(
+    array('data' => 'Task ID', 'field' => 'mt.tid'),
+    array('data' => 'Package', 'field' => 'mt.url'),
+    array('data' => 'ARCH', 'field' => 'mt.arch'),    
+    array('data' => 'Status', 'field' => 'mt.status'),    
+    array('data' => 'Agent ID', 'field' => 'mt.aid'),    
+    array('data' => 'Owner', 'field' => 'mt.uid')
+  );
+  
   $tasks = db_select('mock_tasks', 'mt')
     ->fields('mt')
     ->orderBy('changed', 'DESC')
+    ->extend('TableSort')
+    ->orderByHeader($header)
     ->execute()
     ->fetchAll();
 
@@ -54,7 +65,7 @@ function mock_cluster_tasks(){
       'class' => array('status-' . mock_task_status_by_id($task->status))
     );
   }
-  $header = array(t('Task ID'), t('Package'), t('ARCH'), t('Status'), t('Agent ID'), t('Owner'));
+  
 
   $output['table'] = array(
     '#theme' => 'table__mock_cluster__tasks',
