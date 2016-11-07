@@ -38,7 +38,7 @@ function mock_cluster_tasks(){
 
     $rows[] = array(
       'data' => $row,
-      'class' => 'status-' . mock_task_status_by_id($task->status)
+      'class' => array('status-' . mock_task_status_by_id($task->status))
     );
   }
   $header = array(t('Task ID'), t('Package'), t('ARCH'), t('Status'), t('Agent ID'), t('Owner'));
