@@ -37,11 +37,41 @@ function mock_cluster_tasks(){
       $agent = mock_agent_load_by_id($task->aid);
       $agent_display = l(substr($agent->identificationID,0,6), 'agents/' . $agent->identificationID);
     }
+
+    $title_arch = $task->arch;
+    if($arch = mock_arch_load($task->arch)) {
+      $title_arch = l($task->arch, $arch->rpm_url);
+    }    
+    
+    
+    $row[] = array( 'data' => l($task->tid, 'tasks/' . $task->tid ) );
     
     $package = pathinfo($task->url);
     
-    $row[] = array( 'data' => l($task->tid, 'tasks/' . $task->tid ) );
-    $package =  l($package['basename'], $task->url, array('attributes' => array('absolute' => TRUE)) );
+    $files = db_select('mock_tasks_files', 'mtf')
+      ->fields('mtf')
+      ->orderBy('url', 'ASC')
+      ->execute()
+      ->fetchAll();
+    
+    $links = array();
+    $links['Origin_SRPM'] = array(
+      'title' => t('Origin SRPM'),
+      'attributes' => array('absolute' => TRUE),
+      'href' => $task->url,
+    );
+    if($files){
+      foreach($files as $file) {
+        $file_info = pathinfo($file->url);
+        $links[$file_info['basename']] = array(
+          'title' => $file_info['basename'],
+          'href' => $file->url,
+          'attributes' => array('absolute' => TRUE)
+        );
+      }
+    }
+    
+    $package =  $package['basename'] .  theme('links',array('links' => $links, 'attributes' => array() ));
     $package .= '<div class="timestamp">';
     
     if($task->status == 0) {
@@ -54,10 +84,6 @@ function mock_cluster_tasks(){
     $package .= '</div>';
     $row[] = array( 'data' => $package);
     
-    $title_arch = $task->arch;
-    if($arch = mock_arch_load($task->arch)) {
-      $title_arch = l($task->arch, $arch->rpm_url);
-    }
     $row[] = array( 'data' => $title_arch );
     $row[] = array( 'data' => mock_task_status_by_id($task->status) );
     $row[] = array( 'data' => $agent_display );
