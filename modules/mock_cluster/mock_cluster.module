@@ -26,6 +26,29 @@ function mock_cluster_config_info() {
 }
 
 /**
+ * Implements hook_cron().
+ */
+function mock_cluster_cron() {
+  $arches = db_select('mock_arch', 'mar')
+    ->fields('mar')
+    ->condition('arch', $arch)
+    ->execute()
+    ->fetchAll();
+  foreach($arches as $arch) {
+    $timestamp = filectime($arch->rpm_dir);
+    if($timestamp > time()-60) {
+      exec("cd " . $arch->rpm_dir . " && createrepo --update ./" );
+    }
+
+    $timestamp = filectime($arch->srpm_dir);
+    if($timestamp > time()-60) {
+      exec("cd " . $arch->srpm_dir . " && createrepo --update ./" );
+    }
+  }
+}
+
+
+/**
  * Implements hook_permission().
  */
 function mock_cluster_permission() {
