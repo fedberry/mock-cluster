@@ -1,0 +1,12 @@
+tr.status-Success {
+
+  color: #3dde4b;
+}
+
+tr.status-Pending {
+  color: black;
+}
+
+tr.status-Failed {
+  color: #f50c0c;
+}

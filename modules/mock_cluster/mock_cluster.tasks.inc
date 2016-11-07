@@ -9,6 +9,8 @@
  */
 
 function mock_cluster_tasks(){
+  backdrop_add_css(backdrop_get_path('module', 'mock_cluster') . '/css/mock_cluster.css');
+  
   $tasks = db_select('mock_tasks', 'mt')
     ->fields('mt')
     ->orderBy('changed', 'DESC')
