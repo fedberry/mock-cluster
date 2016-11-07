@@ -83,7 +83,7 @@ function mock_cluster_arch() {
 
 
 /**
- * Add task form.
+ * Add arch form.
  */
 function mock_arch_add($form, &$form_state) {
   $form['arch'] = array(
@@ -126,7 +126,7 @@ function mock_arch_add($form, &$form_state) {
 }
 
 /**
- * Submit handler for the mock_task_add() form.
+ * Submit handler for the mock_arch_add() form.
  */
 function mock_arch_add_submit($form, &$form_state) {
   global $user;
@@ -140,5 +140,109 @@ function mock_arch_add_submit($form, &$form_state) {
   backdrop_write_record('mock_arch', $record);
 
   backdrop_set_message(t('ARCH !arch created!', array('!arch' => $record['arch'])));
+  backdrop_goto('admin/config/mock_cluster/arch');
+}
+
+/**
+ * Delete arch handler.
+ */
+function mock_arch_delete($form, &$form_state, $arch){
+
+  $form_state['arch'] = $arch;
+
+  $form['message'] = array(
+    '#markup' => t('Are you sure want to delete !arch?', array('!arch' => $arch->arch)),
+  );
+  $form['actions']['#type'] = 'actions';
+  $form['actions']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Delete'),
+  );
+
+  return $form;
+}
+
+/**
+ * Submit handler for the mock_arch_delete() form.
+ */
+function mock_agent_delete_submit($form, &$form_state) {
+  global $user;
+  $arch =  $form_state['arch'];
+  db_delete('mock_arch')
+    ->condition('arch', $arch->arch)
+    ->execute();
+
+  backdrop_set_message(t('Arch !arch deleted!', array('!arch' => $arch->arch)));
+  backdrop_goto('admin/config/mock_cluster/arch');
+}
+
+
+/**
+ * Edit arch form.
+ */
+function mock_arch_edit($form, &$form_state, $arch) {
+
+  $form_state['arch'] = $arch;
+  
+  $form['arch'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Arch'),
+    '#disabled' => true,
+  );
+
+  $form['rpm_url'] = array(
+    '#type' => 'textfield',
+    '#title' => t('RPM URL'),
+    '#maxlength' => 253,
+    '#description' => t('RPM ROOT url'),
+    '#default_value' => $arch->rpm_url
+  );
+  $form['srpm_url'] = array(
+    '#type' => 'textfield',
+    '#title' => t('SRPM URL'),
+    '#maxlength' => 253,
+    '#description' => t('SRPM ROOT url'),
+    '#default_value' => $arch->srpm_url
+    
+  );
+
+  $form['rpm_dir'] = array(
+    '#type' => 'textfield',
+    '#title' => t('RPM DIR'),
+    '#maxlength' => 253,
+    '#description' => t('RPM dir to save RPM'),
+    '#default_value' => $arch->rpm_dir
+    
+  );
+  $form['srpm_dir'] = array(
+    '#type' => 'textfield',
+    '#title' => t('SRPM DIR'),
+    '#maxlength' => 253,
+    '#description' => t('SRPM dir to save SRPM'),
+    '#default_value' => $arch->srpm_dir
+  );
+
+  $form['actions']['#type'] = 'actions';
+  $form['actions']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Update'),
+  );
+  return $form;
+}
+
+/**
+ * Submit handler for the mock_arch_edit() form.
+ */
+function mock_arch_edit_submit($form, &$form_state) {
+  global $user;
+  $record = array(
+    'rpm_url' => $form_state['values']['rpm_url'],
+    'srpm_url' => $form_state['values']['srpm_url'],
+    'rpm_dir' => $form_state['values']['rpm_dir'],
+    'srpm_dir' => $form_state['values']['srpm_dir'],
+  );
+  backdrop_write_record('mock_arch', $record, array('arch' => $form_state['values']['arch']));
+
+  backdrop_set_message(t('ARCH !arch updated!', array('!arch' => $record['arch'])));
   backdrop_goto('admin/config/mock_cluster/arch');
 }
