@@ -23,7 +23,7 @@ function mock_cluster_tasks(){
     $agent_display = ('None');
     if($task->aid > 0 ){
       $agent = mock_agent_load_by_id($task->aid);
-      $agent_display = l($agent->identificationID, 'agents/' . $agent->identificationID);
+      $agent_display = l(substr($agent->identificationID,0,6), 'agents/' . $agent->identificationID);
     }
     
     $package = pathinfo($task->url);
@@ -36,9 +36,12 @@ function mock_cluster_tasks(){
     $row[] = array( 'data' => theme('username', array('account' => user_load($task->uid))));
     
 
-    $rows[] = $row;
+    $rows[] = array(
+      'data' => $row,
+      'attributes' => array('class' => 'status-' . mock_task_status_by_id($task->status))
+    );
   }
-  $header = array(t('Task ID'), t('Package'), t('ARCH'), t('Status'), t('Agent MAC'), t('Owner'));
+  $header = array(t('Task ID'), t('Package'), t('ARCH'), t('Status'), t('Agent ID'), t('Owner'));
 
   $output['table'] = array(
     '#theme' => 'table__mock_cluster__tasks',
