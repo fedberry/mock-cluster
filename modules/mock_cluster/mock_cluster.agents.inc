@@ -33,7 +33,12 @@ function mock_cluster_agents(){
         break;
     }
     $row[] = array( 'data' => l($agent->identificationID, 'agents/' . $agent->identificationID ) );
-    $row[] = array( 'data' => $agent->arch );
+    
+    $title_arch = $agent->arch;
+    if($arch = mock_arch_load($agent->arch)) {
+      $title_arch = l($agent->arch, $arch->rpm_url);
+    }
+    $row[] = array( 'data' => $title_arch );
     $row[] = array( 'data' => $status );
     $row[] = array( 'data' => theme('username', array('account' => user_load($agent->uid))));
     

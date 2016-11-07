@@ -53,7 +53,12 @@ function mock_cluster_tasks(){
     }
     $package .= '</div>';
     $row[] = array( 'data' => $package);
-    $row[] = array( 'data' => $task->arch );
+    
+    $title_arch = $task->arch;
+    if($arch = mock_arch_load($task->arch)) {
+      $title_arch = l($task->arch, $arch->rpm_url);
+    }
+    $row[] = array( 'data' => $title_arch );
     $row[] = array( 'data' => mock_task_status_by_id($task->status) );
     $row[] = array( 'data' => $agent_display );
     $row[] = array( 'data' => theme('username', array('account' => user_load($task->uid))));
