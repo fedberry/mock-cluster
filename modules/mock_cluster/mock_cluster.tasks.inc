@@ -12,7 +12,7 @@ function mock_cluster_tasks(){
   backdrop_add_css(backdrop_get_path('module', 'mock_cluster') . '/css/mock_cluster.css');
   
   $header = array(
-    array('data' => 'Task ID', 'field' => 'mt.tid'),
+    array('data' => 'Task ID', 'field' => 'mt.tid',  'sort' => 'DESC'),
     array('data' => 'Package', 'field' => 'mt.url'),
     array('data' => 'ARCH', 'field' => 'mt.arch'),    
     array('data' => 'Status', 'field' => 'mt.status'),    
