@@ -20,9 +20,10 @@ function mock_cluster_tasks(){
     array('data' => 'Owner', 'field' => 'mt.uid')
   );
   
-  $tasks = db_select('mock_tasks', 'mt')
+  $query = db_select('mock_tasks', 'mt')->extend('TableSort')->extend('AltPager');
+  
+  $tasks = $query
     ->fields('mt')
-    ->extend('TableSort')
     ->orderByHeader($header)
     ->execute()
     ->fetchAll();
@@ -65,12 +66,17 @@ function mock_cluster_tasks(){
     );
   }
   
-
+  $output['pager_before'] = array(
+    '#theme' => 'altpager',
+  );
   $output['table'] = array(
     '#theme' => 'table__mock_cluster__tasks',
     '#rows' => $rows,
     '#header' => $header,
     '#empty' => t('No tasks created yet.'),
+  );
+  $output['pager_after'] = array(
+    '#theme' => 'altpager',
   );
   return $output;
 }
