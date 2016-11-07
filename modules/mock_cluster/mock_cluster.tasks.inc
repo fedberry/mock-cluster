@@ -22,7 +22,6 @@ function mock_cluster_tasks(){
   
   $tasks = db_select('mock_tasks', 'mt')
     ->fields('mt')
-    ->orderBy('changed', 'DESC')
     ->extend('TableSort')
     ->orderByHeader($header)
     ->execute()
