@@ -16,8 +16,6 @@ function mock_cluster_agents(){
     ->orderBy('access', 'DESC')
     ->execute()
     ->fetchAll();
-    
-  $pager = theme('altpager');
 
   $rows = array();
   
@@ -71,14 +69,18 @@ function mock_cluster_agents(){
     $header = array(t('Identification ID'), t('ARCH'), t('Status'), t('Owner'));
   }
 
-  $output['pager'] = $pager;
+  $output['pager_before'] = array(
+    '#theme' => 'altpager',
+  );
   $output['table'] = array(
     '#theme' => 'table__mock_cluster__agents',
     '#rows' => $rows,
     '#header' => $header,
     '#empty' => t('No agents available yet.'),
   );
-  $output['pager'] = $pager;
+  $output['pager_after'] = array(
+    '#theme' => 'altpager',
+  );
   return $output;
 }
 
