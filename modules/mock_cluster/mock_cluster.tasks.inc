@@ -5,9 +5,8 @@
  */
 
 /**
- * Menu callback for agents.
+ * Menu callback for tasks.
  */
-
 function mock_cluster_tasks(){
   backdrop_add_css(backdrop_get_path('module', 'mock_cluster') . '/css/mock_cluster.css');
   

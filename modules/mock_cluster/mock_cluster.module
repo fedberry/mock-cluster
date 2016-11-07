@@ -176,7 +176,15 @@ function mock_cluster_menu() {
     'file' => 'mock_cluster.admin.inc',
     'type' => MENU_LOCAL_TASK,    
   );
-
+  $items['admin/config/mock_cluster/arch_add'] = array(
+    'title' => 'Add Arch',
+    'page callback' => 'backdrop_get_form',
+    'page arguments' => array('mock_arch_add'),
+    'access arguments' => array('administer mock cluster'),
+    'file' => 'mock_cluster.admin.inc',
+    'type' => MENU_LOCAL_TASK,
+  );
+  
   $items['tasks'] = array(
     'title' => 'Tasks',
     'page callback' => 'mock_cluster_tasks',
