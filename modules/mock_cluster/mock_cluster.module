@@ -202,6 +202,16 @@ function mock_cluster_menu() {
     'title arguments' => array(1),
     'type' => MENU_DEFAULT_LOCAL_TASK,
   );
+
+  $items['tasks/%mock_task/download/%'] = array(
+    'type' => MENU_CALLBACK,    
+    'title callback' => 'mock_task_title',
+    'title arguments' => array(1),
+    'page callback' => 'mock_cluster_task_download',
+    'page arguments' => array(1),
+    'access arguments' => array('access content'),
+    'file' => 'mock_cluster.tasks.inc',
+  );
     
   $items['agents'] = array(
     'title' => 'Agents',

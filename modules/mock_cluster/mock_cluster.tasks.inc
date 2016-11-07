@@ -105,7 +105,7 @@ function mock_task_add_submit($form, &$form_state) {
 function mock_cluster_task($task){
   $output = '<dl>';
   $output .= '<dt>' . t('TID'). '</dt>';
-  $output .= '<dd>' . $task->id . '</dd>';
+  $output .= '<dd>' . $task->tid . '</dd>';
 
   $output .= '<dt>' . t('ARCH'). '</dt>';
   $output .= '<dd>' . $task->arch . '</dd>';
@@ -127,8 +127,57 @@ function mock_cluster_task($task){
   $output .= '<dd>' . format_date($task->created) . '</dd>';
 
   $output .= '<dt>' . t('Last activity'). '</dt>';
-  $output .= '<dd>' . format_date($task->access) . '</dd>';
+  $output .= '<dd>' . format_date($task->changed) . '</dd>';
+
+  $log_file = 'private://mock_logs/' . $task->tid . '/exec.log';
+    
+    
+  $output .= '<dt>' . t('Exec log'). '</dt>';
+  $output .= '<dd><pre>' . file_get_contents($log_file) . '</pre></dd>';
+  
+  $links['build'] = array(
+    'title' => t('Build.log'),
+    'href' => "tasks/" . $task->tid . "/download/build",
+  );
+
+  $links['root'] = array(
+    'title' => t('Root.log'),
+    'href' => "tasks/" . $task->tid . "/download/root",
+  );
+
+  $links['state'] = array(
+    'title' => t('State.log'),
+    'href' => "tasks/" . $task->tid . "/download/state",
+  );
+
+  $output .= '<dt>' . t('Mock logs'). '</dt>';
+  $output .= '<dd>' .theme('links', $links). '</dd>';
 
   $output .= '</dl>';
   return $output;
+}
+
+function mock_cluster_task_download($task, $file) {
+  switch($file) {
+    case 'build':
+    case 'state':
+    case 'root':
+     $log_file = 'private://mock_logs/' . $task->tid . '/' . $file . '.log';
+    default:
+      return FALSE;
+  }
+  
+  $headers = array(
+    'Content-Type'              => 'force-download',
+    'Content-Disposition'       => 'attachment; filename="' . $file . '.log"',
+    'Content-Length'            => filesize($log_file),
+    'Content-Transfer-Encoding' => 'binary',
+    'Pragma'                    => 'no-cache',
+    'Cache-Control'             => 'must-revalidate, post-check=0, pre-check=0',
+    'Expires'                   => '0',
+    'Accept-Ranges'             => 'bytes'
+  );
+  file_transfer($log_file, $headers);
+  exit();
+  
 }
