@@ -25,3 +25,8 @@ dl.status-Failed {
   border-left: 3px solid #f50c0c;
   padding-left: 10px;
 }
+
+div.timestamp {
+  color: #eee;
+  font-size: smaller;
+}

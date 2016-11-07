@@ -32,7 +32,7 @@ function mock_cluster_tasks(){
     
     $row[] = array( 'data' => l($task->tid, 'tasks/' . $task->tid ) );
     $package =  l($package['basename'], $task->url, array('attributes' => array('absolute' => TRUE)) );
-    $package .= '<div>';
+    $package .= '<div class="timestamp">';
     
     if($task->status == 0) {
       $package .= t('Created: !time ago', array('!time' => format_interval((REQUEST_TIME - $task->created), 2)));
