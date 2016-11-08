@@ -37,7 +37,7 @@ function mock_cluster_cron() {
 
   foreach($arches as $arch) {
     $timestamp = filectime($arch->rpm_dir);
-    if(!$last_update = $config->get($arch->arch . '_lastupdate')){
+    if(!$last_update = $config->get($arch->arch . '_rpm_lastupdate')){
       $last_update = 0;
     }
     
@@ -46,13 +46,19 @@ function mock_cluster_cron() {
             watchdog('mock_cluster', 'Start %arch RPM repo update %exec.', array('%exec' => $result, '%arch' => $arch->arch), WATCHDOG_INFO);
 
     }
+    
+    $config->set($arch->arch . '_rpm_lastupdate', $timestamp);
 
     $timestamp = filectime($arch->srpm_dir);
+    if(!$last_update = $config->get($arch->arch . '_srpm_lastupdate')){
+      $last_update = 0;
+    }
+    
     if($timestamp > $last_update) {
       $result = exec("cd " . $arch->srpm_dir . " && createrepo --update ./" );
       watchdog('mock_cluster', 'Start %arch  SRPM repo update %exec.', array('%exec' => $result, '%arch' => $arch->arch), WATCHDOG_INFO);
     }
-    $config->set($arch->arch . '_lastupdate', $timestamp);
+    $config->set($arch->arch . '_srpm_lastupdate', $timestamp);
   }
   $config->save();
 }
