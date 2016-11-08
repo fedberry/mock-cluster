@@ -42,12 +42,15 @@ function mock_cluster_cron() {
     }
     
     if($timestamp > $last_update) {
-      exec("cd " . $arch->rpm_dir . " && createrepo --update ./" );
+      $result = exec("cd " . $arch->rpm_dir . " && createrepo --update ./" );
+            watchdog('mock_cluster', 'Start %arch RPM repo update %exec.', array('%exec' => $result, '%arch' => $arch->arch), WATCHDOG_INFO);
+
     }
 
     $timestamp = filectime($arch->srpm_dir);
     if($timestamp > $last_update) {
-      exec("cd " . $arch->srpm_dir . " && createrepo --update ./" );
+      $result = exec("cd " . $arch->srpm_dir . " && createrepo --update ./" );
+      watchdog('mock_cluster', 'Start %arch  SRPM repo update %exec.', array('%exec' => $result, '%arch' => $arch->arch), WATCHDOG_INFO);
     }
     $config->set($arch->arch . '_lastupdate', $timestamp);
   }
