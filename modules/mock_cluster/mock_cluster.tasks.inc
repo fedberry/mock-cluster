@@ -37,8 +37,9 @@ function mock_cluster_tasks(){
 
     $agent_display = ('None');
     if($task->aid > 0 ){
-      $agent = mock_agent_load_by_id($task->aid);
-      $agent_display = l(substr($agent->identificationID,0,6), 'agents/' . $agent->identificationID);
+      if($agent = mock_agent_load_by_id($task->aid)) {
+        $agent_display = l(substr($agent->identificationID,0,6), 'agents/' . $agent->identificationID);
+      }
     }
 
     $title_arch = $task->arch;
