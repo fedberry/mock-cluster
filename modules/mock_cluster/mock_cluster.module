@@ -298,8 +298,8 @@ function mock_cluster_menu() {
     'type' => MENU_CALLBACK,    
     'title callback' => 'mock_task_title',
     'title arguments' => array(1),
-    'page callback' => 'mock_cluster_task_edit',
-    'page arguments' => array(1),
+    'page callback' => 'backdrop_get_form',
+    'page arguments' => array('mock_cluster_task_edit', 1),
     'access arguments' => array('administer mock tasks'),
     'file' => 'mock_cluster.tasks.inc',
   );
