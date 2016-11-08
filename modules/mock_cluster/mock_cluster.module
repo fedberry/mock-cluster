@@ -31,9 +31,9 @@ function mock_cluster_config_info() {
 function mock_cluster_cron() {
   $arches = db_select('mock_arch', 'mar')
     ->fields('mar')
-    ->condition('arch', $arch)
     ->execute()
     ->fetchAll();
+
   foreach($arches as $arch) {
     $timestamp = filectime($arch->rpm_dir);
     if($timestamp > time()-60) {
