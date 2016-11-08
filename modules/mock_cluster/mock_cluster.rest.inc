@@ -339,6 +339,9 @@ function mock_cluster_rest_task(){
         if(!_is_rest_authorised($agent, $received_json)) {
           return array('error' => true, 'message' => 'Authorization failed.');
         }
+        if($agent->status != MOCK_AGENT_ACTIVE) {
+          return array('error' => true, 'message' => 'Agent is not active. Please contact admin.');
+        }
         
         $task = db_select('mock_tasks', 'mt')
           ->fields('mt')
