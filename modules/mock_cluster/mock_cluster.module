@@ -29,6 +29,7 @@ function mock_cluster_config_info() {
  * Implements hook_cron().
  */
 function mock_cluster_cron() {
+  $config = config('mock_cluster.settings');
   $arches = db_select('mock_arch', 'mar')
     ->fields('mar')
     ->execute()
@@ -36,15 +37,21 @@ function mock_cluster_cron() {
 
   foreach($arches as $arch) {
     $timestamp = filectime($arch->rpm_dir);
-    if($timestamp > time()-60) {
+    if(!$last_update = $config->get($arch->arch . '_lastupdate')){
+      $last_update = 0;
+    }
+    
+    if($timestamp > $last_update) {
       exec("cd " . $arch->rpm_dir . " && createrepo --update ./" );
     }
 
     $timestamp = filectime($arch->srpm_dir);
-    if($timestamp > time()-60) {
+    if($timestamp > $last_update) {
       exec("cd " . $arch->srpm_dir . " && createrepo --update ./" );
     }
+    $config->set($arch->arch . '_lastupdate', $timestamp);
   }
+  $config->save();
 }
 
 
