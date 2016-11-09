@@ -297,6 +297,7 @@ function mock_cluster_rest_task_by_id($task){
               'data' => http_build_query($request_values),
             ));
             watchdog('mock_cluster', 'result !result.', array('!result' => $result), WATCHDOG_INFO);
+
             return array('message' => 'Task finished.');            
       }
       
