@@ -292,6 +292,7 @@ function mock_cluster_rest_task_by_id($task){
             if($status == MOCK_TASK_FAILED) {
               $request_values['level'] = 'error';
             }
+
             $result = backdrop_http_request($url_gitter, array(
               'method' => 'POST',
               'headers' => array('Content-Type' => 'application/json', 'Accept' => 'application/json'),
