@@ -43,7 +43,7 @@
                     "style": "default",
                     "block_settings": [],
                     "contexts": [],
-                    "content": "<div class=\"alert alert-info\" role=\"alert\" style=\"font-size:larger;\">\n<i class=\"fa fa-exclamation-circle\" aria-hidden=\"true\" style=\"color: red;\"></i> &nbsp;&nbsp;\nWe are hardly working to fill up and structure documentation. Feel free to ask any question on <a href=\"http://gitter.im/fedberry/chat\"><i class=\"fa fa-comments-o\" aria-hidden=\"true\"></i> Gitter</a></div>",
+                    "content": "<div class=\"alert alert-info\" role=\"alert\" style=\"font-size:larger;\">\n<i class=\"fa fa-exclamation-circle\" aria-hidden=\"true\" style=\"color: red;\"></i> &nbsp;&nbsp;\nWe are  working hard to fill up and structure documentation. Feel free to ask any question on <a href=\"http://gitter.im/fedberry/chat\"><i class=\"fa fa-comments-o\" aria-hidden=\"true\"></i> Gitter</a></div>",
                     "format": "full_html"
                 },
                 "uuid": "67ea4897-5c3c-4f2f-9707-7de2e4e94905",
