@@ -281,6 +281,21 @@ function mock_cluster_rest_task_by_id($task){
               ->condition('tid', $task->tid)
               ->condition('status', MOCK_TASK_PROCESSING)
               ->execute();
+              
+            // Todo replace with settings.
+            $url_gitter="https://webhooks.gitter.im/e/32dfb8af6d9c755131a9";
+            
+            $request_values= array (
+              'message' => basename($task->url) . ' build ' . $data['status'] . "\n" . "[" . $task->tid . "](http://mock.fedberry.org/tasks/" . $task->tid. ")"
+            );
+            
+            if($status == MOCK_TASK_FAILED) {
+              $request_values['level'] = 'error';
+            }
+            backdrop_http_request($url_gitter, array(
+              'method' => 'POST',
+              'data' => http_build_query($request_values, '', '&'),
+            ));
             return array('message' => 'Task finished.');            
       }
       
