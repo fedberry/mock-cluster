@@ -292,10 +292,11 @@ function mock_cluster_rest_task_by_id($task){
             if($status == MOCK_TASK_FAILED) {
               $request_values['level'] = 'error';
             }
-            backdrop_http_request($url_gitter, array(
+            $result = backdrop_http_request($url_gitter, array(
               'method' => 'POST',
-              'data' => http_build_query($request_values, '', '&'),
+              'data' => http_build_query($request_values),
             ));
+            watchdog('mock_cluster', 'result !result.', array('!result' => $result), WATCHDOG_INFO);
             return array('message' => 'Task finished.');            
       }
       
