@@ -82,7 +82,7 @@ function mock_cluster_tasks(){
     if($task->status == 0) {
       $package .= t('Created: !time ago', array('!time' => format_interval((REQUEST_TIME - $task->created), 2)));
     } elseif($task->status == 1 ) {
-      $package .= t('Started: !time ago', array('!time' => format_interval((REQUEST_TIME - $task->created), 2)));
+      $package .= t('Started: !time ago', array('!time' => format_interval((REQUEST_TIME - $task->changed), 2)));
     }else {
       $package .= t('Finished: !time ago', array('!time' => format_interval((REQUEST_TIME - $task->changed), 2)));
     }
