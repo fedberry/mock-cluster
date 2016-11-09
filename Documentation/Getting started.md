@@ -17,4 +17,4 @@ dnf install mock-client -y
 
 - now your agent is registered. Ask admin to activate it on agents page.
 
-All done. Your agent is up and running and run tasks for Pre Zero programm.
+All done. Your agent is up and running and run tasks for Pre Zero program.
