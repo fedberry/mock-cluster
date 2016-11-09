@@ -294,9 +294,10 @@ function mock_cluster_rest_task_by_id($task){
             }
             $result = backdrop_http_request($url_gitter, array(
               'method' => 'POST',
-              'data' => http_build_query($request_values),
+              'headers' => array('Content-Type' => 'application/json', 'Accept' => 'application/json'),
+              'data' => json_encode($request_values),
             ));
-            watchdog('mock_cluster', 'result !result.', array('!result' => $result), WATCHDOG_INFO);
+            watchdog('mock_cluster', 'result <pre>!result.</pre>', array('!result' => print_r($result, true)), WATCHDOG_INFO);
 
             return array('message' => 'Task finished.');            
       }
